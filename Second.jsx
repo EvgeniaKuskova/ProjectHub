@@ -11,6 +11,16 @@ export function Second() {
                 <h1 className="header">ProjectHub</h1>
                 <div className="form">
                     <input
+                        type="name"
+                        id="username"
+                        placeholder="Имя"
+                    />
+                    <input
+                        type="surname"
+                        id="surname"
+                        placeholder="Фамилия"
+                    />
+                    <input
                         type="text"
                         id="username"
                         placeholder="Ссылка на telegram"
@@ -20,20 +30,9 @@ export function Second() {
                         id="password"
                         placeholder="Пароль"
                     />
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Пароль"
-                    />
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Пароль"
-                    />
                     <button className="login-button" onClick={handleLogin}>
-                        Войти
+                        Зарегистрироваться
                     </button>
-                    <div id="secondScreen"></div>
                 </div>
             </div>
             <div className="stripe"></div>

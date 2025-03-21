@@ -22,7 +22,7 @@ export function First() {
                         placeholder="Пароль"
                     />
                     <button className="login-button" onClick={handleLogin}>Войти</button>
-                    <Link to="/Second">Нет аккаунта? Зарегистрироваться</Link>         
+                    <Link className="register-link" to="/Second">Нет аккаунта? Зарегистрироваться</Link>         
                 </div>
             </div>
             <div className="stripe"></div>
