@@ -1,5 +1,6 @@
 import React from 'react'; 
 import { Link } from 'react-router-dom';
+import './Login.css';
 
 export function LoginPage() {
     const handleLogin = () => {
@@ -9,7 +10,7 @@ export function LoginPage() {
     return (
         <>
             <div className="container">
-                <h1 className="header">ProjectHub</h1>
+                <h1 className="loginHeader">ProjectHub</h1>
                 <div className="form">
                     <input
                         type="text"
@@ -21,11 +22,10 @@ export function LoginPage() {
                         id="password"
                         placeholder="Пароль"
                     />
-                    <button className="login-button" onClick={handleLogin}>Войти</button>
-                    <Link className="register-link" to="/RegistrationPage">Нет аккаунта? Зарегистрироваться</Link>         
+                    <button className="button" onClick={handleLogin}>Войти</button>
+                    <Link className="link" to="/RegistrationPage">Нет аккаунта? Зарегистрироваться</Link>
                 </div>
             </div>
-            <div className="stripe"></div>
         </>
     );
 }

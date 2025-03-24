@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css'
+import './Registration.css'
+import {Link} from "react-router-dom";
+
 
 export function RegistrationPage() {
     const handleLogin = () => {
@@ -9,7 +12,7 @@ export function RegistrationPage() {
     return (
         <>
             <div className="container">
-                <h1 className="header">ProjectHub</h1>
+                <h1 className="registrationHeader">ProjectHub</h1>
                 <div className="form">
                     <input
                         type="text"
@@ -31,12 +34,12 @@ export function RegistrationPage() {
                         id="password"
                         placeholder="Пароль"
                     />
-                    <button className="login-button" onClick={handleLogin}>
+                    <button className="button" onClick={handleLogin}>
                         Зарегистрироваться
                     </button>
+                    <Link className="link" to="/">Есть аккаунт? Войти</Link>
                 </div>
             </div>
-            <div className="stripe"></div>
         </>
     );
 }
