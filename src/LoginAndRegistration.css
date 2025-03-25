@@ -1,10 +1,10 @@
 ﻿.container {
-    background-color: #FFE4E4;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
     height: 100%;
+    width: 100%
 }
 
 .form {
@@ -12,14 +12,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 5vh;
     width: 300px;
-    gap: 4vh;
+    gap: 40px;
 }
 
 .form-input-login, .form-input-registration {
-    width: 50vh;
-    height: 8vh;
+    width: 400px;
+    height: 60px;
     font-size: 28px;
     border-radius: 20px;
     align-content: center;
@@ -40,9 +39,8 @@ input:focus {
 }
 
 .button {
-    margin-top: 30px;
-    width: 50vh;
-    height: 8vh;
+    width: 400px;
+    height: 60px;
     background-color: #ff5500;
     color: white;
     border: none;
@@ -57,12 +55,14 @@ input:focus {
 }
 
 .link {
+    margin-top: -20px;
     text-align: center;
     color: #FF6F00;
     opacity: 0.47;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 20px;
     font-family: 'Roboto', sans-serif;
+    white-space: nowrap;
 }
 
 .link:hover {
@@ -72,15 +72,15 @@ input:focus {
 .loginHeader {
     color: #FF6F00;
     text-align: center;
-    margin-top: 22vh;
-    font-size: 6vh;
+    margin-top: 150px;
+    font-size: 60px;
     font-family: 'Italiana', serif;
 }
 
 .registrationHeader {
     color: #FF6F00;
     text-align: center;
-    margin-top: 7vh;
-    font-size: 6vh;
+    margin-top: 45px;
+    font-size: 60px;
     font-family: 'Italiana', serif;
 }
