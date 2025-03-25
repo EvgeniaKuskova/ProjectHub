@@ -1,44 +1,43 @@
 import React from 'react';
 import './App.css'
-import './Registration.css'
 import {Link} from "react-router-dom";
 
 
 export function RegistrationPage() {
     const handleLogin = () => {
-        alert("Кнопка ввода нажата!");
+        console.log("Кнопка ввода нажата!");
     };
 
     return (
         <>
             <div className="container">
                 <h1 className="registrationHeader">ProjectHub</h1>
-                <div className="form">
+                <form className="form">
                     <input
                         type="text"
-                        id="username"
+                        className="form-input-registration username"
                         placeholder="Имя"
                     />
                     <input
                         type="text"
-                        id="surname"
+                        className="form-input-registration surname"
                         placeholder="Фамилия"
                     />
                     <input
                         type="text"
-                        id="tg"
+                        className="form-input-registration tg"
                         placeholder="Ссылка на telegram"
                     />
                     <input
                         type="password"
-                        id="password"
+                        className="form-input-registration password"
                         placeholder="Пароль"
                     />
-                    <button className="button" onClick={handleLogin}>
+                    <button className="button" type="button" onClick={handleLogin}>
                         Зарегистрироваться
                     </button>
-                    <Link className="link" to="/">Есть аккаунт? Войти</Link>
-                </div>
+                    <Link className="link" to="/Login">Есть аккаунт? Войти</Link>
+                </form>
             </div>
         </>
     );
