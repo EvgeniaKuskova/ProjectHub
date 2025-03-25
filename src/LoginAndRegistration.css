@@ -1,0 +1,86 @@
+﻿.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    gap: 40px;
+}
+
+.form-input-login, .form-input-registration {
+    width: 400px;
+    height: 60px;
+    font-size: 28px;
+    border-radius: 20px;
+    align-content: center;
+    font-family: 'Roboto', sans-serif;
+    color: #615F5F;
+    padding-left: 10px;
+    border: 1px solid transparent;
+}
+
+input::placeholder {
+    opacity: 0.47;
+    color: #FF6F00;
+    font-family: 'Roboto', sans-serif;
+}
+
+input:focus {
+    outline: 2px solid #615F5F;
+}
+
+.button {
+    width: 400px;
+    height: 60px;
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 28px;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #bf3c02;
+}
+
+.link {
+    margin-top: -20px;
+    text-align: center;
+    color: #FF6F00;
+    opacity: 0.47;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    white-space: nowrap;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.loginHeader {
+    color: #FF6F00;
+    text-align: center;
+    margin-top: 150px;
+    font-size: 60px;
+    font-family: 'Italiana', serif;
+}
+
+.registrationHeader {
+    color: #FF6F00;
+    text-align: center;
+    margin-top: 45px;
+    font-size: 60px;
+    font-family: 'Italiana', serif;
+}
