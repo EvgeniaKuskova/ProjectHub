@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './App.css'
+import './MainPage.css';
 
 export function MainPage() {
     const [filters, setFilters] = useState({
@@ -31,13 +32,14 @@ export function MainPage() {
             <div className="main-container">
                 <header className="header">
                     <h1 className="site-title">ProjectHub</h1>
-                </header>
-                <img
+                    <img
                     src="src/assets/user.png"  // Путь к изображению
                     alt="User Icon"         // Альтернативный текст
                     className="user-icon"    // Класс для стилизации
                 />
+                </header>
                 <div className="sidebar">
+                <div className="skills-container">
                 <h3 className="skills">Навыки</h3>
                     <label className="filter-backend">
                         <input
@@ -45,7 +47,7 @@ export function MainPage() {
                             name="backend"
                             checked={filters.backend}
                             onChange={handleFilterChange}
-                        />Backend-разработчик
+                        /><span>Backend-разработчик</span>
                     </label>
                     <label className="filter-frontend">
                         <input
@@ -53,7 +55,7 @@ export function MainPage() {
                             name="frontend"
                             checked={filters.frontend}
                             onChange={handleFilterChange}
-                        />Frontend-разработчик
+                        /><span>Frontend-разработчик</span>
                     </label>
                     <label className="filter-analyst">
                         <input
@@ -61,7 +63,7 @@ export function MainPage() {
                             name="analyst"
                             checked={filters.analyst}
                             onChange={handleFilterChange}
-                        />Аналитик
+                        /><span>Аналитик</span>
                     </label>
                     <label className="filter-designer">
                         <input
@@ -69,7 +71,7 @@ export function MainPage() {
                             name="designer"
                             checked={filters.designer}
                             onChange={handleFilterChange}
-                        />Дизайнер
+                        /><span>Дизайнер</span>
                     </label>
                     <label className="filter-ml">
                         <input
@@ -77,7 +79,7 @@ export function MainPage() {
                             name="ml"
                             checked={filters.ml}
                             onChange={handleFilterChange}
-                        />ML-инженер
+                        /><span>ML-инженер</span>
                     </label>
                     <label className="filter-qa">
                         <input
@@ -85,7 +87,7 @@ export function MainPage() {
                             name="qa"
                             checked={filters.qa}
                             onChange={handleFilterChange}
-                        />Тестировщик
+                        /><span>Тестировщик</span>
                     </label>
                     <label className="filter-manager">
                         <input
@@ -93,7 +95,7 @@ export function MainPage() {
                             name="manager"
                             checked={filters.manager}
                             onChange={handleFilterChange}
-                        />Менеджер
+                        /><span>Менеджер</span>
                     </label>
                     <label className="filter-other">
                         <input
@@ -101,9 +103,11 @@ export function MainPage() {
                             name="other"
                             checked={filters.other}
                             onChange={handleFilterChange}
-                        />Другое
+                        /><span>Другое</span>
                     </label>
+                    </div>
                     <h3 className="course">Курс</h3>
+                    <div className="course-container">
                     <label className="filter-first">
                         <input
                             type="checkbox"
@@ -136,6 +140,7 @@ export function MainPage() {
                             onChange={handleFilterChange}
                         />4
                     </label>
+                    </div>
                     <h3 className="type">Тип</h3>
                     <label className="filter-educational">
                         <input
