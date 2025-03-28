@@ -1,10 +1,13 @@
 import React from 'react'; 
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import './LoginAndRegistration.css';
 
 export function LoginPage() {
+
+    const navigation = useNavigate();
+
     const handleLogin = () => {
-        console.log("Кнопка ввода нажата!");
+        navigation('/Main')
     };
 
     return (

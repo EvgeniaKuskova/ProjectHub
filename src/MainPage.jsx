@@ -1,168 +1,143 @@
 import React, {useState} from 'react';
-import './App.css'
+import './App.css';
+import {ProjectCard} from './ProjectCard';
+
+const filterCategories = {
+    skills: {
+        title: "Навыки",
+        filters: [
+            {name: "backend", label: "Backend-разработчик"},
+            {name: "frontend", label: "Frontend-разработчик"},
+            {name: "analyst", label: "Аналитик"},
+            {name: "designer", label: "Дизайнер"},
+            {name: "ml", label: "ML-инженер"},
+            {name: "qa", label: "Тестировщик"},
+            {name: "manager", label: "Менеджер"},
+            {name: "other", label: "Другое"}
+        ]
+    },
+    course: {
+        title: "Курс",
+        filters: [
+            {name: "first", label: "1"},
+            {name: "second", label: "2"},
+            {name: "third", label: "3"},
+            {name: "fourth", label: "4"}
+        ]
+    },
+    type: {
+        title: "Тип",
+        filters: [
+            {name: "educational", label: "Учебный"},
+            {name: "personal", label: "Пет-проект"},
+            {name: "customer", label: "Есть заказчик"}
+        ]
+    }
+};
+
+const ColoredLine = ({color = "#FF6F00", height = 100, opacity = 0.47}) => (
+    <hr style={{color, backgroundColor: color, height, opacity}}/>
+);
+
+const FilterCheckbox = ({name, label, checked, onChange}) => (
+    <label className={`filter-${name}`}>
+        <input
+            type="checkbox"
+            name={name}
+            checked={checked}
+            onChange={onChange}
+        />
+        {label}
+    </label>
+);
+
+const FilterGroup = ({title, filters, filterState, onFilterChange}) => (
+    <div className="filter-group">
+        <h3 className={title.toLowerCase()}>{title}</h3>
+        {filters.map(({name, label}) => (
+            <FilterCheckbox
+                key={name}
+                name={name}
+                label={label}
+                checked={filterState[name]}
+                onChange={onFilterChange}
+            />
+        ))}
+    </div>
+);
+
+const mockProjects = [
+    {
+        id: 1,
+        username: "Мария Иванова",
+        description: "Веб-сайт для знакмоств с реализацией чата",
+        search_skills: ["Frontend-разработчик"],
+        type: "Учебный",
+        course: [1, 2],
+        customer: true,
+        team: [["Мария", ["Дизайнер"]], ["Илья", ["Backend-разработчик"]]]
+    },
+
+    {
+        id: 2,
+        username: "Василий Петров",
+        description: "Telegram-бот для поиска музыки по названию",
+        search_skills: ["Backend-разработчик"],
+        type: "Учебный",
+        course: [3],
+        customer: false,
+        team: [["Вася", ["Менеджер", "Backend-разработчик"]]]
+    }
+]
 
 export function MainPage() {
-    const [filters, setFilters] = useState({
-        backend: false,
-        frontend: false,
-        analyst: false,
-        designer: false,
-        ml: false,
-        qa: false,
-        manager: false,
-        other: false,
-        first: false,
-        second: false,
-        third: false,
-        fourth: false,
-        educational: false,
-        personal: false,
-        customer: false
-    });
+    const initialFilters = Object.values(filterCategories)
+        .flatMap(category => category.filters)
+        .reduce((acc, {name}) => ({...acc, [name]: false}), {});
 
-    // Обработчик изменения состояния чекбокса
+    const [filters, setFilters] = useState(initialFilters);
+
     const handleFilterChange = (event) => {
         const {name, checked} = event.target;
-        setFilters(prev => ({
-            ...prev, [name]: checked
-        }));
+        setFilters(prev => ({...prev, [name]: checked}));
     };
-    return (<>
-            <div className="main-container">
-                <header className="header">
-                    <h1 className="site-title">ProjectHub</h1>
-                </header>
-                <img
-                    src="src/assets/user.png"  // Путь к изображению
-                    alt="User Icon"         // Альтернативный текст
-                    className="user-icon"    // Класс для стилизации
-                />
-                <div className="sidebar">
-                <h3 className="skills">Навыки</h3>
-                    <label className="filter-backend">
-                        <input
-                            type="checkbox"
-                            name="backend"
-                            checked={filters.backend}
-                            onChange={handleFilterChange}
-                        />Backend-разработчик
-                    </label>
-                    <label className="filter-frontend">
-                        <input
-                            type="checkbox"
-                            name="frontend"
-                            checked={filters.frontend}
-                            onChange={handleFilterChange}
-                        />Frontend-разработчик
-                    </label>
-                    <label className="filter-analyst">
-                        <input
-                            type="checkbox"
-                            name="analyst"
-                            checked={filters.analyst}
-                            onChange={handleFilterChange}
-                        />Аналитик
-                    </label>
-                    <label className="filter-designer">
-                        <input
-                            type="checkbox"
-                            name="designer"
-                            checked={filters.designer}
-                            onChange={handleFilterChange}
-                        />Дизайнер
-                    </label>
-                    <label className="filter-ml">
-                        <input
-                            type="checkbox"
-                            name="ml"
-                            checked={filters.ml}
-                            onChange={handleFilterChange}
-                        />ML-инженер
-                    </label>
-                    <label className="filter-qa">
-                        <input
-                            type="checkbox"
-                            name="qa"
-                            checked={filters.qa}
-                            onChange={handleFilterChange}
-                        />Тестировщик
-                    </label>
-                    <label className="filter-manager">
-                        <input
-                            type="checkbox"
-                            name="manager"
-                            checked={filters.manager}
-                            onChange={handleFilterChange}
-                        />Менеджер
-                    </label>
-                    <label className="filter-other">
-                        <input
-                            type="checkbox"
-                            name="other"
-                            checked={filters.other}
-                            onChange={handleFilterChange}
-                        />Другое
-                    </label>
-                    <h3 className="course">Курс</h3>
-                    <label className="filter-first">
-                        <input
-                            type="checkbox"
-                            name="first"
-                            checked={filters.first}
-                            onChange={handleFilterChange}
-                        />1
-                    </label>
-                    <label className="filter-second">
-                        <input
-                            type="checkbox"
-                            name="second"
-                            checked={filters.second}
-                            onChange={handleFilterChange}
-                        />2
-                    </label>
-                    <label className="filter-third">
-                        <input
-                            type="checkbox"
-                            name="third"
-                            checked={filters.third}
-                            onChange={handleFilterChange}
-                        />3
-                    </label>
-                    <label className="filter-fourth">
-                        <input
-                            type="checkbox"
-                            name="fourth"
-                            checked={filters.fourth}
-                            onChange={handleFilterChange}
-                        />4
-                    </label>
-                    <h3 className="type">Тип</h3>
-                    <label className="filter-educational">
-                        <input
-                            type="checkbox"
-                            name="educational"
-                            checked={filters.educational}
-                            onChange={handleFilterChange}
-                        />Учебный
-                    </label>
-                    <label className="filter-personal">
-                        <input
-                            type="checkbox"
-                            name="personal"
-                            checked={filters.personal}
-                            onChange={handleFilterChange}
-                        />Пет-проект
-                    </label>
-                    <label className="filter-customer">
-                        <input
-                            type="checkbox"
-                            name="customer"
-                            checked={filters.customer}
-                            onChange={handleFilterChange}
-                        />Есть заказчик
-                    </label>
-                </div>
-            </div>
 
-        </>)
+    return (
+        <div className="main-container">
+            <ColoredLine/>
+            <header className="header">
+                <h1 className="site-title">ProjectHub</h1>
+                <img
+                    src="src/assets/user.png"
+                    alt="User Icon"
+                    className="user-icon"
+                    onClick={() => console.log('Icon clicked')}
+                />
+            </header>
+
+            <div className="sidebar">
+                {Object.entries(filterCategories).map(([key, {title, filters: filterItems}]) => (
+                    <FilterGroup
+                        key={key}
+                        title={title}
+                        filters={filterItems}
+                        filterState={filters}
+                        onFilterChange={handleFilterChange}
+                    />
+                ))}
+            </div>
+            <img
+                src="src/assets/edit.png"
+                alt="Edit"
+                className="edit-icon"
+                onClick={() => console.log('Icon clicked')}
+            />
+
+            <div className="projects-grid">
+                {mockProjects.map(project => (
+                    <ProjectCard key={project.id} project={project}/>
+                ))}
+            </div>
+        </div>
+    );
 }
