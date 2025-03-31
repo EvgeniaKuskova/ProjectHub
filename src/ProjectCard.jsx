@@ -3,7 +3,7 @@ import './Card.css'
 
 const FieldWithCustomers = ({project}) => {
     if (project.customer === true) {
-        return <h3 class="FieldCustomers">Есть заказчик</h3>;
+        return <h3 className="FieldCustomers">Есть заказчик</h3>;
     }
     return null;
 }
@@ -38,8 +38,10 @@ export const ProjectCard = ({project}) => {
                 <p className="project-description">{project.description}</p>
                 <h3 className="project-search_skills-heading">Ищу</h3>
                 <p className="project-search_skills">{project.search_skills}</p>
-                <h3 className="project-project-type-heading">Тип</h3>
+                <h3 className="project-type-heading">Тип</h3>
                 <p className="project-type">{project.type}</p>
+                <h3 className="project-course-heading">Курс</h3>
+                <p className="project-course">{project.course.join(', ')}</p>
                 <FieldWithCustomers project={project} />
             </div>
 
