@@ -11,10 +11,9 @@
     display: flex;
     justify-content: space-between; 
     align-items: center;
-    background: #FF6F00;
+    background: #ffb47b;
     width: 100%;
     height: 100px;
-    opacity: 0.47;
     position: fixed; 
 }
 
