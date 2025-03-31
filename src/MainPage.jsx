@@ -36,9 +36,6 @@ const filterCategories = {
     }
 };
 
-const ColoredLine = ({color = "#FF6F00", height = 100, opacity = 0.47}) => (
-    <hr style={{color, backgroundColor: color, height, opacity}}/>
-);
 
 const FilterCheckbox = ({name, label, checked, onChange}) => (
     <label className={`filter-${name}`}>
@@ -52,8 +49,8 @@ const FilterCheckbox = ({name, label, checked, onChange}) => (
     </label>
 );
 
-const FilterGroup = ({title, filters, filterState, onFilterChange}) => (
-    <div className="filter-group">
+const FilterGroup = ({title, filters, filterState, onFilterChange, groupClassName}) => (
+    <div className={groupClassName}>
         <h3 className={title.toLowerCase()}>{title}</h3>
         {filters.map(({name, label}) => (
             <FilterCheckbox
@@ -105,7 +102,6 @@ export function MainPage() {
 
     return (
         <div className="main-container">
-            <ColoredLine/>
             <header className="header">
                 <h1 className="site-title">ProjectHub</h1>
                 <img
@@ -119,14 +115,19 @@ export function MainPage() {
             <div className="sidebar">
                 {Object.entries(filterCategories).map(([key, {title, filters: filterItems}]) => (
                     <FilterGroup
-                        key={key}
-                        title={title}
-                        filters={filterItems}
-                        filterState={filters}
-                        onFilterChange={handleFilterChange}
+                    key={key}
+                    title={title}
+                    filters={filterItems.map(item => ({
+                        ...item,
+                        label: <span className="filter-text">{item.label}</span>
+                    }))}
+                    filterState={filters}
+                    onFilterChange={handleFilterChange}
+                    groupClassName={key === 'course' ? 'course-group' : 'group'}
                     />
                 ))}
             </div>
+
             <img
                 src="src/assets/edit.png"
                 alt="Edit"

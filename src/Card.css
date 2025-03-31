@@ -1,0 +1,57 @@
+.project-card {
+    display: flex;
+    background: white;
+    width: 1000px;
+    height: 350px;
+    border-radius: 30px;
+    margin: 20px;
+}
+
+.project-header {
+    left: 0;
+    top: 80px;
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;    
+    justify-content: center; 
+}
+
+.project-username {
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    color: #615F5F;
+}
+
+.project-avatar {
+    width: 160px;
+    height: 160px;
+}
+
+.project-content {
+    width: 80%;
+    height: 100%;
+    gap: 60px;
+    display: grid;
+    grid-template-columns: 35% 35%; 
+}
+
+.project-description-column, .project-team-column {
+    margin: 20px;
+}
+
+.project-description-heading, .project-search_skills-heading, .project-project-type-heading, .FieldCustomers, .project-team-heading {
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    color: #615F5F;
+    
+}
+
+.project-description, .project-search_skills, .project-type, .team-member {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    color: #615F5F;
+    line-height: 1.5;
+}
