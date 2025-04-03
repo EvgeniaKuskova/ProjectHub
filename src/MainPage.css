@@ -1,0 +1,156 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background: #FFAD79;
+    width: 100%;
+    height: 100px;
+    position: fixed; 
+    z-index: 1;
+}
+
+.site-title {
+    margin: 0;
+    font-size: 60px;
+    color: #fff;
+    font-family: 'Italiana', serif;
+    margin-left: 30px;
+}
+
+.user-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 30px;
+}
+
+.sidebar {
+    position: absolute; 
+    left: 0;
+    top: 100px;
+    width: 250px;
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.sidebar h3 {
+    margin: 0 0 10px 0;
+    padding: 10px 0;
+    color: rgba(255, 111, 0, 0.47);
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 6px;
+    line-height: 1.2;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.sidebar label {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    color: rgba(255, 111, 0, 0.47); 
+}
+  
+.sidebar input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+    background: #fff;
+    border: 2px solid #ffa95d;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+  
+.sidebar input[type="checkbox"]:checked::before {
+    content: "✓";
+    position: absolute;
+    color: #ffa95d;
+    font-size: 14px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.sidebar label span {
+    background: #fff; 
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: rgba(255, 111, 0, 0.47); 
+    flex-grow: 1;
+}
+
+.sidebar .course-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px; 
+  }
+  
+.sidebar .course-group label {
+    margin-bottom: 0; 
+    min-width: 40px; 
+}
+
+.sidebar .course-group .filter-text {
+    display: flex;
+    justify-content: center;
+    padding: 4px 8px;
+}
+
+.sidebar .course-group input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sidebar .course-group input[type="checkbox"] + .filter-text {
+    cursor: pointer;
+    border: 1px solid #ffa95d;
+}
+
+.sidebar .course-group input[type="checkbox"]:checked + .filter-text {
+    background-color: #ffa95d;
+    color: #fff;
+}
+
+.edit-icon {
+    position: fixed;
+    transform-origin: right bottom; 
+    display: block;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    right: 10px;
+    bottom: 10px;
+    padding: 10px;
+}
+
+.projects-grid {
+    margin-top: 100px;
+    margin-left: 170px;
+}
