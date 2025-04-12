@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {LoginPage} from './LoginPage.jsx';
 import {RegistrationPage} from './RegistrationPage.jsx';
 import {MainPage} from "./MainPage.jsx";
-import {PersonalPage} from "./PersonalPage.jsx";
+import {PersonalPage} from './PersonalPage.jsx';
 
 function App() {
     return (
