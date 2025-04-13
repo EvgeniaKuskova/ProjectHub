@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://158.160.155.123:8000';
+const API_BASE_URL = '/api';
 
 export const registerUser = async (name, surname, telegram_id, password) => {
     try {
@@ -15,14 +15,26 @@ export const registerUser = async (name, surname, telegram_id, password) => {
             }),
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || 'Ошибка регистрации');
-        }
+        const responseData = await response.json();
 
-        const userData = await response.json();
-        console.log('Пользователь зарегистрирован:', userData);
-        return userData;
+        if (!response.ok) {
+            let errorMessage;
+            if (Array.isArray(responseData.detail)) {
+                errorMessage = responseData.detail.map(error => error.msg).join('\n');
+            } else if (typeof responseData.detail === 'string') {
+                errorMessage = responseData.detail;
+            } else {
+                errorMessage = 'Произошла ошибка при регистрации';
+            }
+
+            alert(errorMessage);
+            return false;
+        }
+        else {
+            console.log('Пользователь зарегистрирован:', responseData);
+        }
+        return true;
+
     } catch (error) {
         console.error('Ошибка:', error.message);
         throw error;

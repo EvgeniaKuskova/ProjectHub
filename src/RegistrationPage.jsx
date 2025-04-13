@@ -24,17 +24,17 @@ export function RegistrationPage() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const userData = await registerUser(
+            const register = await registerUser(
                 formData.name,
                 formData.surname,
                 formData.telegramId,
                 formData.password
             );
-            console.log('Успешная регистрация:', userData);
-            navigate('/Login');
+            if (register === true) {
+                navigate('/Login');
+            }
         } catch (error) {
             console.error('Ошибка регистрации:', error.message);
-            alert(`Ошибка: ${error.message}`);
         }
     };
 
