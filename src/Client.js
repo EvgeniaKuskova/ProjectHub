@@ -29,8 +29,7 @@ export const registerUser = async (name, surname, telegram_id, password) => {
 
             alert(errorMessage);
             return false;
-        }
-        else {
+        } else {
             console.log('Пользователь зарегистрирован:', responseData);
         }
         return true;
@@ -40,3 +39,42 @@ export const registerUser = async (name, surname, telegram_id, password) => {
         throw error;
     }
 };
+
+export const loginUser = async (telegram_id, password) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                telegram_id: telegram_id,
+                password: password,
+            }),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            let errorMessage;
+            if (Array.isArray(responseData.detail)) {
+                errorMessage = responseData.detail.map(error => error.msg).join('\n');
+            } else if (typeof responseData.detail === 'string') {
+                errorMessage = responseData.detail;
+            } else {
+                errorMessage = 'Произошла ошибка при входе';
+            }
+
+            alert(errorMessage);
+            return false;
+        } else {
+            localStorage.setItem('token', response.access_token);
+            console.log('Успешный вход', responseData);
+        }
+        return true;
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        throw error;
+    }
+}

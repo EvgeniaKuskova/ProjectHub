@@ -4,15 +4,21 @@ import {LoginPage} from './LoginPage.jsx';
 import {RegistrationPage} from './RegistrationPage.jsx';
 import {MainPage} from "./MainPage.jsx";
 import {PersonalPage} from './PersonalPage.jsx';
+import { ProtectedRoute } from './ProtectedRoute';
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainPage/>}/>
-                <Route path="/Login" element={<LoginPage/>}/>
-                <Route path="/Registration" element={<RegistrationPage/>}/>
-                <Route path="/User" element={<PersonalPage/>}/>
+                {/* Публичные маршруты */}
+                <Route path="/Login" element={<LoginPage />} />
+                <Route path="/Registration" element={<RegistrationPage />} />
+
+                {/* Защищённые маршруты */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/User" element={<PersonalPage />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
