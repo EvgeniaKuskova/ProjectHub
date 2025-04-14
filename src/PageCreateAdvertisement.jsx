@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
-import './PageCreateAdvertisement.css'
+import './PageCreateAdvertisement.css';
+import {createCard} from './Client.js'
 
 const filterCategories = {
     skills: {
@@ -101,29 +103,151 @@ const FilterGroup = ({title, filters, filterState, onFilterChange, groupClassNam
 );
 
 export function CreatePage() {
+    const navigate = useNavigate()
+
     const initialFilters = Object.values(filterCategories)
-            .flatMap(category => category.filters)
-            .reduce((acc, {name}) => ({...acc, [name]: false}), {});
+        .flatMap(category => category.filters)
+        .reduce((acc, {name}) => ({...acc, [name]: false}), {});
+
+    const [filters, setFilters] = useState(initialFilters);
+    const [otherSkill, setOtherSkill] = useState('');
+    const [description, setDescription] = useState('');
+    const [team, setTeam] = useState([]);
+    const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+    const [newMemberName, setNewMemberName] = useState('');
+    const [selectedRoles, setSelectedRoles] = useState([]);
+
+    const availableRoles = [
+        "Backend-разработчик",
+        "Frontend-разработчик",
+        "Дизайнер",
+        "Аналитик",
+        "Тестировщик",
+        "Менеджер",
+        "Другое"
+    ];
+
+    const handleFilterChange = (event) => {
+        const {name, checked} = event.target;
+        setFilters(prev => ({...prev, [name]: checked}));
+        if (name === 'other' && !checked) {
+            setOtherSkill('');
+        }
+    };
     
-        const [filters, setFilters] = useState(initialFilters);
-        const [otherSkill, setOtherSkill] = useState('');
+    const handleOtherSkillChange = (event) => {
+        const value = event.target.value;
+        setOtherSkill(value);
+        setFilters(prev => ({
+            ...prev,
+            other: value.trim() !== ''
+        }));
+    };
+
+    const handleAddTeamMemberClick = () => {
+        setShowAddMemberModal(true);
+    };
+
+    const handleRoleChange = (role) => {
+        setSelectedRoles(prev => 
+            prev.includes(role) 
+                ? prev.filter(r => r !== role) 
+                : [...prev, role]
+        );
+    };
+
+    const handleAddMemberSubmit = () => {
+        if (newMemberName.trim() && selectedRoles.length > 0) {
+            const newMember = {
+                name: newMemberName,
+                roles: selectedRoles
+            };
+            setTeam([...team, newMember]);
+            setNewMemberName('');
+            setSelectedRoles([]);
+            setShowAddMemberModal(false);
+        }
+    };
+
+    const handleCancelAddMember = () => {
+        setNewMemberName('');
+        setSelectedRoles([]);
+        setShowAddMemberModal(false);
+    };
+
+    const handlePublish = async () => {
+        const selectedSkills = filterCategories.skills.filters
+            .filter(({name}) => filters[name])
+            .map(({label}) => label);
     
-        const handleFilterChange = (event) => {
-            const {name, checked} = event.target;
-            setFilters(prev => ({...prev, [name]: checked}));
-            if (name === 'other' && !checked) {
+        if (otherSkill.trim() !== '') {
+            selectedSkills.push(otherSkill);
+        }
+    
+        const selectedCourses = filterCategories.course.filters
+            .filter(({name}) => filters[name])
+            .map(({label}) => parseInt(label));
+    
+        const selectedTypes = filterCategories.type.filters
+            .filter(({name}) => filters[name])
+            .map(({label}) => label);
+    
+        const hasCustomer = filters.customer;
+    
+        const formattedTeam = team.map(member => {
+            const rolesString = member.roles.length > 1 
+                ? member.roles.slice(0, -1).join(', ') + ' и ' + member.roles.slice(-1)
+                : member.roles[0] || '';
+    
+            return {
+                name: member.name,
+                grade: 0, 
+                skill: rolesString 
+            };
+        });
+    
+        const cardData = {
+            title: "Новый проект",
+            description: description,
+            temmates: formattedTeam, 
+            who_needs: selectedSkills,
+            tech_stack: selectedTypes.join(', '),
+            customer: hasCustomer
+        };
+    
+        try {
+            const success = await createCard(
+                cardData.title,
+                cardData.description,
+                cardData.temmates,
+                cardData.who_needs,
+                cardData.tech_stack,
+                cardData.customer
+            );
+    
+            if (success) {
+                alert('Объявление успешно опубликовано!');
+                setDescription('');
+                setTeam([]);
+                setFilters(initialFilters);
                 setOtherSkill('');
             }
-        };
+        } catch (error) {
+            console.error('Ошибка при публикации:', error);
+            alert('Не удалось опубликовать объявление');
+        }
+    };
+
+    const isFormValid = () => {
+        const isDescriptionValid = description.trim() !== '';
+        const isTeamValid = team.length > 0;
+        const isCourseValid = filterCategories.course.filters
+            .some(({name}) => filters[name]);
+        const isTypeValid = filterCategories.type.filters
+            .some(({name}) => name !== 'customer' && filters[name]);
         
-        const handleOtherSkillChange = (event) => {
-            const value = event.target.value;
-            setOtherSkill(value);
-            setFilters(prev => ({
-                ...prev,
-                other: value.trim() !== ''
-            }));
-        };
+        return isDescriptionValid && isTeamValid && isCourseValid && isTypeValid;
+    };
 
     return (
         <div className="main-container">
@@ -133,13 +257,16 @@ export function CreatePage() {
                     src="src/assets/user.png"
                     alt="User Icon"
                     className="user-icon"
-                    onClick={() => console.log('Icon clicked')}
+                    onClick={() => navigate('/User')}
                 />
             </header>
             <div className="container-choose">
                 <div className="description">
                     <h1>Описание</h1>
-                    <textarea></textarea>
+                    <textarea 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
                 </div>
                 {Object.entries(filterCategories).map(([key, {title, filters: filterItems}]) => (
                     <FilterGroup
@@ -158,12 +285,71 @@ export function CreatePage() {
                 ))}
                 <div className="addCommand">
                     <h1>Команда</h1>
-                    <button className="addPeople" type="button" onClick={() => console.log('Add person clicked')}>
-                        + Добавить человека
+                    <button 
+                        className="addPeople" 
+                        type="button" 
+                        onClick={handleAddTeamMemberClick}>+ Добавить человека
                     </button>
+                    {team.length > 0 && (
+                        <div className="team-list">
+                            {team.map((member, index) => (
+                                <div key={index} className="team-member">
+                                    {member.name} - {member.roles.join(', ')}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
-            <button className="AddAdvertisement">Опубликовать</button>
+            <button 
+                className="AddAdvertisement" 
+                type="button" 
+                onClick={handlePublish}
+                disabled={!isFormValid()}>
+                Опубликовать
+            </button>
+
+            {/* Модальное окно добавления участника */}
+            {showAddMemberModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Добавить участника</h2>
+                        <div className="form-group">
+                            <label>Имя:</label>
+                            <input
+                                type="text"
+                                value={newMemberName}
+                                onChange={(e) => setNewMemberName(e.target.value)}
+                                placeholder="Введите имя участника"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Роли:</label>
+                            <div className="roles-checkbox-group">
+                                {availableRoles.map(role => (
+                                    <label key={role} className="role-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRoles.includes(role)}
+                                            onChange={() => handleRoleChange(role)}
+                                        />
+                                        {role}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="modal-buttons">
+                            <button onClick={handleCancelAddMember}>Отмена</button>
+                            <button 
+                                onClick={handleAddMemberSubmit}
+                                disabled={!newMemberName.trim() || selectedRoles.length === 0}
+                            >
+                                Добавить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -111,3 +111,45 @@ export const getCards = async () => {
         throw error;
     }
 }
+
+export const createCard = async (title, description, temmates, who_needs, tech_stack, customer) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/cards/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                temmates: temmates,
+                who_needs: who_needs,
+                tech_stack: tech_stack,
+                customer: customer
+            }),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            let errorMessage;
+            if (Array.isArray(responseData.detail)) {
+                errorMessage = responseData.detail.map(error => error.msg).join('\n');
+            } else if (typeof responseData.detail === 'string') {
+                errorMessage = responseData.detail;
+            } else {
+                errorMessage = 'Произошла ошибка при публикации карточки';
+            }
+
+            alert(errorMessage);
+            return false;
+        } else {
+            console.log('Объявление опубликовано:', responseData);
+        }
+        return true;
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        throw error;
+    }
+};

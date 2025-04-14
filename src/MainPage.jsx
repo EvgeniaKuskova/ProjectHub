@@ -131,7 +131,7 @@ export function MainPage() {
                 src="src/assets/edit.png"
                 alt="Edit"
                 className="edit-icon"
-                onClick={() => console.log('Icon clicked')}
+                onClick={() => navigate('/Create')}
             />
 
             <div className="projects-grid">
