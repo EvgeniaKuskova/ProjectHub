@@ -62,6 +62,7 @@ export const loginUser = async (telegram_id, password) => {
             return checkError(responseData);
         } else {
             localStorage.setItem('token', responseData.access_token);
+            localStorage.setItem('tg', telegram_id);
             console.log('Успешный вход', responseData);
         }
         return true;
@@ -125,3 +126,55 @@ export const createCard = async (cardData) => {
         return false; 
     }
 };
+
+export const getMyCards = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/cards/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            return checkError(responseData);
+        } else {
+            console.log('Успешное получение карт', responseData);
+            return responseData;
+        }
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        alert('Ошибка сети');
+        return false; 
+    }
+}
+
+export const getMe = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            return checkError(responseData);
+        } else {
+            console.log('Успешное получение данных пользователя', responseData);
+            return responseData;
+        }
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        alert('Ошибка сети');
+        return false; 
+    }
+}

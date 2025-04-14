@@ -3,34 +3,44 @@ import React from "react";
 import {useNavigate} from 'react-router-dom';
 import {ProjectCard} from './ProjectCard';
 import './PersonalPage.css'
+import {getMyCards, getMe} from './Client.js'
+
+let mockProjects = [];
+try {
+    const cardsData = await getMyCards(); 
+    mockProjects = cardsData ? cardsData.map((card, index) => ({
+        id: index + 1,
+        username: card.teammates[0]?.name || "Неизвестный",
+        description: card.description || "Нет описания",
+        search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
+        type: card.customer ? "Коммерческий" : "Учебный", 
+        course: card.teammates.map(member => member.grade).filter(Boolean) || [1], 
+        customer: card.customer || false,
+        team: card.teammates.map(member => ({
+            name: member.name,
+            skills: [member.skill]
+        })) || []
+    })) : [];
+} catch (error) {
+    console.error('Ошибка получения карточек:', error);
+    mockProjects = [];
+}
+
+let name;
+try {
+    const me = await getMe();
+    name = me.name + " " + me.surname;
+} catch (error) {
+    console.error('Ошибка получения пользователя:', error);
+    mockProjects = [];
+}
 
 const User = {
-    name: "Мария Иванова",
-    telegram: "@example",
-    projects: [
-        {
-            id: 1,
-            username: "Мария Иванова",
-            description: "Веб-сайт для знакмоств с реализацией чата",
-            search_skills: ["Frontend-разработчик"],
-            type: "Учебный",
-            course: [1, 2],
-            customer: true,
-            team: [["Мария", ["Дизайнер"]], ["Илья", ["Backend-разработчик"]]]
-        },
-
-        {
-            id: 2,
-            username: "Мария Иванова",
-            description: "Telegram-бот для поиска музыки по названию",
-            search_skills: ["Backend-разработчик"],
-            type: "Учебный",
-            course: [3],
-            customer: false,
-            team: [["Мария", ["Менеджер", "Backend-разработчик"]]]
-        }
-    ]
+    name: name,
+    telegram: localStorage.getItem('tg'),
+    projects: mockProjects
 }
+
 export function PersonalPage() {
 
     const navigate = useNavigate();

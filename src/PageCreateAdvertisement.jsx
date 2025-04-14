@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import './PageCreateAdvertisement.css';
-import {createCard} from './Client.js'
+import {createCard, getMe} from './Client.js'
 
 const filterCategories = {
     skills: {
