@@ -71,18 +71,20 @@ try {
     const cardsData = await getCards(); 
     mockProjects = cardsData ? cardsData.map((card, index) => ({
         id: index + 1,
-        username: card.commentstr[0]?.name || "Неизвестный",
+        username: card.teammates[0]?.name || "Неизвестный",
         description: card.description || "Нет описания",
-        search_skills: card.who_reader.map(reader => reader.skill) || ["Навык не указан"],
-        type: card.customer = "Учебный", 
-        course: [1, 2], 
+        search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
+        type: card.customer ? "Коммерческий" : "Учебный", 
+        course: card.teammates.map(member => member.grade).filter(Boolean) || [1], 
         customer: card.customer || false,
-        team: card.commentstr.map(comment => [comment.name, [comment.skill]]) || []
-      })) : []; 
-
+        team: card.teammates.map(member => ({
+            name: member.name,
+            skills: [member.skill]
+        })) || []
+    })) : [];
 } catch (error) {
-    console.error('Ошибка получения карточек:', error.message);
-    mockProjects = []; 
+    console.error('Ошибка получения карточек:', error);
+    mockProjects = [];
 }
 
 export function MainPage() {

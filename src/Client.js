@@ -1,5 +1,25 @@
 const API_BASE_URL = '/api';
 
+const checkError = (responseData) => {
+    let errorMessage;
+    if (responseData.detail) {
+        if (Array.isArray(responseData.detail)) {
+            errorMessage = responseData.detail.map(error => error.msg).join('\n');
+        } else if (typeof responseData.detail === 'string') {
+            errorMessage = responseData.detail;
+        } else {
+            errorMessage = 'Произошла ошибка';
+        }
+    } else if (responseData.message) {
+        errorMessage = responseData.message;
+    } else if (typeof responseData === 'string') {
+        errorMessage = responseData;
+    }
+    
+    alert(errorMessage);
+    return false;
+}
+
 export const registerUser = async (name, surname, telegram_id, password) => {
     try {
         const response = await fetch(`${API_BASE_URL}/users/register`, {
@@ -7,28 +27,13 @@ export const registerUser = async (name, surname, telegram_id, password) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                name: name,
-                surname: surname,
-                telegram_id: telegram_id,
-                password: password,
-            }),
+            body: JSON.stringify({name, surname, telegram_id, password}),
         });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            let errorMessage;
-            if (Array.isArray(responseData.detail)) {
-                errorMessage = responseData.detail.map(error => error.msg).join('\n');
-            } else if (typeof responseData.detail === 'string') {
-                errorMessage = responseData.detail;
-            } else {
-                errorMessage = 'Произошла ошибка при регистрации';
-            }
-
-            alert(errorMessage);
-            return false;
+            return checkError(responseData);
         } else {
             console.log('Пользователь зарегистрирован:', responseData);
         }
@@ -36,7 +41,8 @@ export const registerUser = async (name, surname, telegram_id, password) => {
 
     } catch (error) {
         console.error('Ошибка:', error.message);
-        throw error;
+        alert('Ошибка сети');
+        return false; 
     }
 };
 
@@ -47,35 +53,23 @@ export const loginUser = async (telegram_id, password) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                telegram_id: telegram_id,
-                password: password,
-            }),
+            body: JSON.stringify({telegram_id, password}),
         });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            let errorMessage;
-            if (Array.isArray(responseData.detail)) {
-                errorMessage = responseData.detail.map(error => error.msg).join('\n');
-            } else if (typeof responseData.detail === 'string') {
-                errorMessage = responseData.detail;
-            } else {
-                errorMessage = 'Произошла ошибка при входе';
-            }
-
-            alert(errorMessage);
-            return false;
+            return checkError(responseData);
         } else {
-            localStorage.setItem('token', response.access_token);
+            localStorage.setItem('token', responseData.access_token);
             console.log('Успешный вход', responseData);
         }
         return true;
 
     } catch (error) {
         console.error('Ошибка:', error.message);
-        throw error;
+        alert('Ошибка сети');
+        return false; 
     }
 }
 
@@ -85,22 +79,14 @@ export const getCards = async () => {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
         });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            let errorMessage;
-            if (Array.isArray(responseData.detail)) {
-                errorMessage = responseData.detail.map(error => error.msg).join('\n');
-            } else if (typeof responseData.detail === 'string') {
-                errorMessage = responseData.detail;
-            } else {
-                errorMessage = 'Произошла ошибка при получении карточек';
-            }
-            alert(errorMessage);
-            return false;
+            return checkError(responseData);
         } else {
             console.log('Успешное получение карт', responseData);
             return responseData;
@@ -108,41 +94,26 @@ export const getCards = async () => {
 
     } catch (error) {
         console.error('Ошибка:', error.message);
-        throw error;
+        alert('Ошибка сети');
+        return false; 
     }
 }
 
-export const createCard = async (title, description, temmates, who_needs, tech_stack, customer) => {
+export const createCard = async (cardData) => {
     try {
         const response = await fetch(`${API_BASE_URL}/cards/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify({
-                title: title,
-                description: description,
-                temmates: temmates,
-                who_needs: who_needs,
-                tech_stack: tech_stack,
-                customer: customer
-            }),
+            body: JSON.stringify(cardData),
         });
 
         const responseData = await response.json();
 
         if (!response.ok) {
-            let errorMessage;
-            if (Array.isArray(responseData.detail)) {
-                errorMessage = responseData.detail.map(error => error.msg).join('\n');
-            } else if (typeof responseData.detail === 'string') {
-                errorMessage = responseData.detail;
-            } else {
-                errorMessage = 'Произошла ошибка при публикации карточки';
-            }
-
-            alert(errorMessage);
-            return false;
+            return checkError(responseData);
         } else {
             console.log('Объявление опубликовано:', responseData);
         }
@@ -150,6 +121,7 @@ export const createCard = async (title, description, temmates, who_needs, tech_s
 
     } catch (error) {
         console.error('Ошибка:', error.message);
-        throw error;
+        alert('Ошибка сети');
+        return false; 
     }
 };

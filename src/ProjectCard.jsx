@@ -8,12 +8,16 @@ const FieldWithCustomers = ({project}) => {
     return null;
 }
 
-const TeamList = ({team}) => {
-    return (<div className="team-list">
-            {team.map(([name, roles], index) => (<div key={index} className="team-member">
-                    {name}: {roles.join(', ')}
-                </div>))}
-        </div>);
+const TeamList = ({ team }) => {
+    return (
+        <div className="team-list">
+            {team.map((member, index) => (
+                <div key={index} className="team-member">
+                    {member.name}: {member.skills.join(', ')}
+                </div>
+            ))}
+        </div>
+    );
 };
 
 export const ProjectCard = ({project, withDelete = false}) => {

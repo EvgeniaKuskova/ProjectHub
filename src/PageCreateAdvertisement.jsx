@@ -188,43 +188,33 @@ export function CreatePage() {
             .filter(({name}) => filters[name])
             .map(({label}) => parseInt(label));
     
-        const selectedTypes = filterCategories.type.filters
-            .filter(({name}) => filters[name])
-            .map(({label}) => label);
-    
         const hasCustomer = filters.customer;
     
-        const formattedTeam = team.map(member => {
-            const rolesString = member.roles.length > 1 
-                ? member.roles.slice(0, -1).join(', ') + ' и ' + member.roles.slice(-1)
-                : member.roles[0] || '';
+        const formattedTeam = team.map(member => ({
+            name: member.name,
+            grade: selectedCourses[0] || 1, 
+            skill: member.roles.join(', ') 
+        }));
     
-            return {
-                name: member.name,
-                grade: 0, 
-                skill: rolesString 
-            };
-        });
+        const formattedWhoNeeds = selectedSkills.map(skill => ({
+            grade: selectedCourses[0] || 1, 
+            skill: skill
+        }));
     
         const cardData = {
             title: "Новый проект",
             description: description,
-            temmates: formattedTeam, 
-            who_needs: selectedSkills,
-            tech_stack: selectedTypes.join(', '),
+            teammates: formattedTeam, 
+            who_needs: formattedWhoNeeds,
+            tech_stack: selectedSkills.join(', '),
             customer: hasCustomer
         };
     
-        try {
-            const success = await createCard(
-                cardData.title,
-                cardData.description,
-                cardData.temmates,
-                cardData.who_needs,
-                cardData.tech_stack,
-                cardData.customer
-            );
+        console.log('Отправляемые данные:', cardData); 
     
+        try {
+            const success = await createCard(cardData); 
+            
             if (success) {
                 alert('Объявление успешно опубликовано!');
                 setDescription('');
