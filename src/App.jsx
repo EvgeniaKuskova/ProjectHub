@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {LoginPage} from './LoginPage.jsx';
 import {RegistrationPage} from './RegistrationPage.jsx';
 import {MainPage} from "./MainPage.jsx";
+import {CreatePage} from "./PageCreateAdvertisement.jsx";
 import {PersonalPage} from './PersonalPage.jsx';
 import { ProtectedRoute } from './ProtectedRoute';
 
@@ -18,6 +19,7 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/User" element={<PersonalPage />} />
+                    <Route path='/Create' element={<CreatePage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
