@@ -4,6 +4,7 @@ import {LoginPage} from './LoginPage.jsx';
 import {RegistrationPage} from './RegistrationPage.jsx';
 import {MainPage} from "./MainPage.jsx";
 import {CreatePage} from "./PageCreateAdvertisement.jsx";
+import {PersonalPage} from './PersonalPage.jsx';
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path='/Login' element={<LoginPage/>}/>
                 <Route path='/Registration' element={<RegistrationPage/>}/>
                 <Route path='/Create' element={<CreatePage/>}/>
+                <Route path='/User' element={<PersonalPage/>}/>
             </Routes>
         </BrowserRouter>
     );

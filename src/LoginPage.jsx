@@ -7,7 +7,7 @@ export function LoginPage() {
     const navigation = useNavigate();
 
     const handleLogin = () => {
-        navigation('/Main')
+        navigation('/')
     };
 
     return (

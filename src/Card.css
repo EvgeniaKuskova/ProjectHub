@@ -1,4 +1,5 @@
 .project-card {
+    position: relative;
     display: flex;
     background: #fff;
     width: 1000px;
@@ -71,4 +72,17 @@
     color: #615F5F;
     line-height: 1.5;
     margin: 0 0 15px 0;
+}
+
+.trash-can-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+
+.trash-can-icon:hover {
+    transform: scale(1.05);
 }

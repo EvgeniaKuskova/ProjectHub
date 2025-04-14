@@ -8,21 +8,20 @@ const FieldWithCustomers = ({project}) => {
     return null;
 }
 
-const TeamList = ({ team }) => {
-    return (
-        <div className="team-list">
-            {team.map(([name, roles], index) => (
-                <div key={index} className="team-member">
+const TeamList = ({team}) => {
+    return (<div className="team-list">
+            {team.map(([name, roles], index) => (<div key={index} className="team-member">
                     {name}: {roles.join(', ')}
-                </div>
-            ))}
-        </div>
-    );
+                </div>))}
+        </div>);
 };
 
-export const ProjectCard = ({project}) => {
-    return (
-        <div className="project-card">
+export const ProjectCard = ({project, withDelete = false}) => {
+    const handleDelete = () => {
+        console.log('Удаление проекта:', project.id);
+    };
+
+    return (<div className="project-card">
             <div className="project-header">
                 <img
                     src={"src/assets/default-user.png"}
@@ -33,23 +32,28 @@ export const ProjectCard = ({project}) => {
             </div>
 
             <div className="project-content">
-            <div className="project-description-column">
-                <h3 className="project-description-heading">Идея</h3>
-                <p className="project-description">{project.description}</p>
-                <h3 className="project-search_skills-heading">Ищу</h3>
-                <p className="project-search_skills">{project.search_skills}</p>
-                <h3 className="project-type-heading">Тип</h3>
-                <p className="project-type">{project.type}</p>
-                <h3 className="project-course-heading">Курс</h3>
-                <p className="project-course">{project.course.join(', ')}</p>
-                <FieldWithCustomers project={project} />
-            </div>
+                <div className="project-description-column">
+                    <h3 className="project-description-heading">Идея</h3>
+                    <p className="project-description">{project.description}</p>
+                    <h3 className="project-search_skills-heading">Ищу</h3>
+                    <p className="project-search_skills">{project.search_skills}</p>
+                    <h3 className="project-type-heading">Тип</h3>
+                    <p className="project-type">{project.type}</p>
+                    <h3 className="project-course-heading">Курс</h3>
+                    <p className="project-course">{project.course.join(', ')}</p>
+                    <FieldWithCustomers project={project}/>
+                </div>
 
-            <div className="project-team-column">
-                <h3 className="project-team-heading">В команде уже есть</h3>
-                <TeamList team={project.team} />
+                <div className="project-team-column">
+                    <h3 className="project-team-heading">В команде уже есть</h3>
+                    <TeamList team={project.team}/>
+                    {withDelete && (<img
+                            src="src/assets/trash-can.png"
+                            alt="Trash-can Icon"
+                            className="trash-can-icon"
+                            onClick={handleDelete}
+                        />)}
+                </div>
             </div>
-            </div>
-        </div>
-    )
+        </div>)
 }

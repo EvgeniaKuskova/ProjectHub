@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import {ProjectCard} from './ProjectCard';
 import './MainPage.css'
@@ -89,6 +90,8 @@ const mockProjects = [
 ]
 
 export function MainPage() {
+    const navigate = useNavigate()
+
     const initialFilters = Object.values(filterCategories)
         .flatMap(category => category.filters)
         .reduce((acc, {name}) => ({...acc, [name]: false}), {});
@@ -108,7 +111,7 @@ export function MainPage() {
                     src="src/assets/user.png"
                     alt="User Icon"
                     className="user-icon"
-                    onClick={() => console.log('Icon clicked')}
+                    onClick={() => navigate('/User')}
                 />
             </header>
 
