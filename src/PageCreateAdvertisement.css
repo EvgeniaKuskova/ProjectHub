@@ -129,7 +129,7 @@ label {
     border-radius: 8px;
     margin-bottom: 8px;
     cursor: pointer;
-    color: rgba(255, 111, 0, 0.47); 
+    color: rgb(255 111 0 / 0.47);
 }
 
 input[type="checkbox"] {
@@ -161,7 +161,7 @@ label span {
     background: #fff; 
     padding: 8px 12px;
     border-radius: 6px;
-    color: rgba(255, 111, 0, 0.47); 
+    color: rgb(255 111 0 / 0.47);
     flex-grow: 1;
 }
 
@@ -209,4 +209,36 @@ label span {
     border-radius: 8px;
     border: none;
     background-color: #ff6f00;
+}
+
+.other-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-column: span 1;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.other-input-container {
+    width: 100%;
+    margin-top: 8px;
+    margin-left: 40px; /* Отступ для выравнивания с текстом чекбоксов */
+}
+
+.other-input {
+    width: calc(100% - 40px); /* Учитываем отступ */
+    max-width: 250px;
+    padding: 8px 12px;
+    border: 1px solid #ffa95d;
+    border-radius: 6px;
+    background: #fff;
+    color: rgb(255 111 0 / 0.47);
+}
+
+.filter-other {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    width: 100%;
 }
