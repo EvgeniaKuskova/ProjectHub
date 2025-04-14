@@ -78,3 +78,36 @@ export const loginUser = async (telegram_id, password) => {
         throw error;
     }
 }
+
+export const getCards = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/cards/`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            let errorMessage;
+            if (Array.isArray(responseData.detail)) {
+                errorMessage = responseData.detail.map(error => error.msg).join('\n');
+            } else if (typeof responseData.detail === 'string') {
+                errorMessage = responseData.detail;
+            } else {
+                errorMessage = 'Произошла ошибка при получении карточек';
+            }
+            alert(errorMessage);
+            return false;
+        } else {
+            console.log('Успешное получение карт', responseData);
+            return responseData;
+        }
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        throw error;
+    }
+}

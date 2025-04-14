@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import {ProjectCard} from './ProjectCard';
-import './MainPage.css'
+import './MainPage.css';
+import {getCards} from './Client.js'
 
 const filterCategories = {
     skills: {
@@ -65,29 +66,24 @@ const FilterGroup = ({title, filters, filterState, onFilterChange, groupClassNam
     </div>
 );
 
-const mockProjects = [
-    {
-        id: 1,
-        username: "Мария Иванова",
-        description: "Веб-сайт для знакмоств с реализацией чата",
-        search_skills: ["Frontend-разработчик"],
-        type: "Учебный",
-        course: [1, 2],
-        customer: true,
-        team: [["Мария", ["Дизайнер"]], ["Илья", ["Backend-разработчик"]]]
-    },
+let mockProjects = [];
+try {
+    const cardsData = await getCards(); 
+    mockProjects = cardsData ? cardsData.map((card, index) => ({
+        id: index + 1,
+        username: card.commentstr[0]?.name || "Неизвестный",
+        description: card.description || "Нет описания",
+        search_skills: card.who_reader.map(reader => reader.skill) || ["Навык не указан"],
+        type: card.customer = "Учебный", 
+        course: [1, 2], 
+        customer: card.customer || false,
+        team: card.commentstr.map(comment => [comment.name, [comment.skill]]) || []
+      })) : []; 
 
-    {
-        id: 2,
-        username: "Василий Петров",
-        description: "Telegram-бот для поиска музыки по названию",
-        search_skills: ["Backend-разработчик"],
-        type: "Учебный",
-        course: [3],
-        customer: false,
-        team: [["Вася", ["Менеджер", "Backend-разработчик"]]]
-    }
-]
+} catch (error) {
+    console.error('Ошибка получения карточек:', error.message);
+    mockProjects = []; 
+}
 
 export function MainPage() {
     const navigate = useNavigate()
