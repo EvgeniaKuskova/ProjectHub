@@ -121,9 +121,8 @@ export const createCard = async (cardData) => {
         return true;
 
     } catch (error) {
-        console.error('Ошибка:', error.message);
-        alert('Ошибка сети');
-        return false; 
+        console.error('Сетевая ошибка:', error.message);
+        return false;
     }
 };
 
@@ -147,8 +146,7 @@ export const getMyCards = async () => {
         }
 
     } catch (error) {
-        console.error('Ошибка:', error.message);
-        alert('Ошибка сети');
+        console.error('Сетевая ошибка:', error.message);
         return false; 
     }
 }
@@ -166,15 +164,15 @@ export const getMe = async () => {
         const responseData = await response.json();
 
         if (!response.ok) {
-            return checkError(responseData);
-        } else {
-            console.log('Успешное получение данных пользователя', responseData);
-            return responseData;
+            console.error('Ошибка получения данных пользователя:', responseData);
+            return { error: true, message: responseData.message || 'Неизвестная ошибка' };
         }
 
+        console.log('Успешное получение данных пользователя', responseData);
+        return responseData;
+
     } catch (error) {
-        console.error('Ошибка:', error.message);
-        alert('Ошибка сети');
-        return false; 
+        console.error('Сетевая ошибка:', error.message);
+        return false;
     }
-}
+};

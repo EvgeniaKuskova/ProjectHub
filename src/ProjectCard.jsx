@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Card.css'
 
 const FieldWithCustomers = ({project}) => {
@@ -21,8 +21,16 @@ const TeamList = ({ team }) => {
 };
 
 export const ProjectCard = ({project, withDelete = false}) => {
+    let metric;
     const handleDelete = () => {
         console.log('Удаление проекта:', project.id);
+    };
+
+    const [showButton, setShowButton] = useState(true); // Состояние для отображения кнопки
+
+    const handleClick = () => {
+        setShowButton(false)
+        metric++;
     };
 
     return (<div className="project-card">
@@ -57,6 +65,11 @@ export const ProjectCard = ({project, withDelete = false}) => {
                             className="trash-can-icon"
                             onClick={handleDelete}
                         />)}
+                    {!withDelete && showButton? (
+                        <button onClick={handleClick} className="metric">Связаться</button>
+                    ) : (
+                        <p className="metric_text">{project.username}</p>
+                    )}
                 </div>
             </div>
         </div>)
