@@ -20,12 +20,8 @@ const TeamList = ({ team }) => {
     );
 };
 
-export const ProjectCard = ({project, withDelete = false}) => {
+export const ProjectCard = ({project, withDelete = false, onDelete}) => {
     let metric;
-    const handleDelete = () => {
-        console.log('Удаление проекта:', project.id);
-    };
-
     const [showButton, setShowButton] = useState(true); // Состояние для отображения кнопки
 
     const handleClick = () => {
@@ -63,7 +59,7 @@ export const ProjectCard = ({project, withDelete = false}) => {
                             src="src/assets/trash-can.png"
                             alt="Trash-can Icon"
                             className="trash-can-icon"
-                            onClick={handleDelete}
+                            onClick={onDelete}
                         />)}
                     {!withDelete && showButton && (<button onClick={handleClick} className="metric">Связаться</button>)}
                     {!withDelete && !showButton && (<p className="metric_text">{project.telegram_id}</p>)}
