@@ -41,6 +41,7 @@ export const ProjectCard = ({project, withDelete = false}) => {
                     className="project-avatar"
                 />
                 <h3 className="project-username">{project.username}</h3>
+                <h3 className="project-username">{project.telegram_id}</h3>
             </div>
 
             <div className="project-content">
@@ -48,7 +49,7 @@ export const ProjectCard = ({project, withDelete = false}) => {
                     <h3 className="project-description-heading">Идея</h3>
                     <p className="project-description">{project.description}</p>
                     <h3 className="project-search_skills-heading">Ищу</h3>
-                    <p className="project-search_skills">{project.search_skills}</p>
+                    <p className="project-search_skills">{project.search_skills.join(', ')}</p>
                     <h3 className="project-type-heading">Тип</h3>
                     <p className="project-type">{project.type}</p>
                     <h3 className="project-course-heading">Курс</h3>
