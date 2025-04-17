@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import {ProjectCard} from './ProjectCard';
@@ -31,8 +31,8 @@ const filterCategories = {
     type: {
         title: "Тип",
         filters: [
-            {name: "educational", label: "Учебный"},
-            {name: "personal", label: "Пет-проект"},
+            {name: "study", label: "Учебный"},
+            {name: "pet", label: "Пет-проект"},
             {name: "customer", label: "Есть заказчик"}
         ]
     }
@@ -66,30 +66,6 @@ const FilterGroup = ({title, filters, filterState, onFilterChange, groupClassNam
     </div>
 );
 
-let mockProjects = [];
-try {
-    const cardsData = await getCards(); 
-    mockProjects = cardsData ? cardsData.map((card, index) => {
-        const typeProject = card.type == "study" ? "Учебный" : "Пет-проект";
-        return {
-            id: index + 1,
-            username: card.title || "Неизвестный",
-            description: card.description || "Нет описания",
-            search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
-            type: card.customer ? typeProject + " и есть заказчик" : typeProject, 
-            course: card.teammates.map(member => member.grade).filter(Boolean) || [1], 
-            customer: card.customer || false,
-            telegram_id: card.telegram_id,
-            team: card.teammates.map(member => ({
-                name: member.name,
-                skills: [member.skill]
-            })) || []
-        };
-    }) : [];
-} catch (error) {
-    console.error('Ошибка получения карточек:', error);
-    mockProjects = [];
-}
 
 export function MainPage() {
     const navigate = useNavigate()
@@ -99,10 +75,76 @@ export function MainPage() {
         .reduce((acc, {name}) => ({...acc, [name]: false}), {});
 
     const [filters, setFilters] = useState(initialFilters);
+    const [projects, setProjects] = useState([]);
+
+    const formatProjects = (cardsData) => {
+        return cardsData ? cardsData.map((card, index) => {
+            const typeProject = card.type === "study" ? "Учебный" : "Пет-проект";
+            return {
+                id: index + 1,
+                username: card.title || "Неизвестный",
+                description: card.description || "Нет описания",
+                search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
+                type: card.customer ? typeProject + " и есть заказчик" : typeProject,
+                course: card.teammates.map(member => member.grade).filter(Boolean) || [1],
+                customer: card.customer || false,
+                telegram_id: card.telegram_id,
+                team: card.teammates.map(member => ({
+                    name: member.name,
+                    skills: [member.skill]
+                })) || []
+            };
+        }) : [];
+    };
+
+    useEffect(() => {
+        const fetchInitialProjects = async () => {
+            try {
+                const cardsData = await getCards();
+                const formattedProjects = formatProjects(cardsData);
+                setProjects(formattedProjects);
+            } catch (error) {
+                console.error('Ошибка получения карточек:', error);
+            }
+        };
+
+        fetchInitialProjects();
+    }, []);
 
     const handleFilterChange = (event) => {
         const {name, checked} = event.target;
         setFilters(prev => ({...prev, [name]: checked}));
+    };
+
+
+    const applyFilters = async () => {
+        const selectedSkills = Object.keys(filters)
+            .filter(key => filters[key] && filterCategories.skills.filters.some(f => f.name === key));
+        const selectedCourses = Object.keys(filters)
+            .filter(key => filters[key] && filterCategories.course.filters.some(f => f.name === key))
+            .map(key => parseInt(key.replace('first', '1').replace('second', '2')
+                .replace('third', '3').replace('fourth', '4')));
+        const selectedTypes = Object.keys(filters)
+            .filter(key => filters[key] && filterCategories.type.filters.some(f => f.name === key));
+        try {
+            const queryParams = new URLSearchParams();
+            if (selectedSkills.length > 0) {
+                selectedSkills.forEach(skill => queryParams.append('skills', skill));
+            }
+            if (selectedCourses.length > 0) {
+                selectedCourses.forEach(course => queryParams.append('courses', course));
+            }
+            if (selectedTypes.length > 0) {
+                selectedTypes.forEach(type => queryParams.append('type', type));
+            }
+
+            const response = await fetch(`/api/cards/filter?${queryParams}`);
+            const data = await response.json();
+            const formattedProjects = formatProjects(data);
+            setProjects(formattedProjects);
+        } catch (error) {
+            console.error('Ошибка при отправке фильтров:', error);
+        }
     };
 
     return (
@@ -131,6 +173,9 @@ export function MainPage() {
                     groupClassName={key === 'course' ? 'course-group' : 'group'}
                     />
                 ))}
+                <button className="apply-filters-button" onClick={applyFilters}>
+                    Применить фильтры
+                </button>
             </div>
 
             <img
@@ -141,7 +186,7 @@ export function MainPage() {
             />
 
             <div className="projects-grid">
-                {mockProjects.map(project => (
+                {projects.map(project => (
                     <ProjectCard key={project.id} project={project}/>
                 ))}
             </div>

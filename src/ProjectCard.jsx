@@ -41,7 +41,6 @@ export const ProjectCard = ({project, withDelete = false}) => {
                     className="project-avatar"
                 />
                 <h3 className="project-username">{project.username}</h3>
-                <h3 className="project-username">{project.telegram_id}</h3>
             </div>
 
             <div className="project-content">
@@ -66,11 +65,8 @@ export const ProjectCard = ({project, withDelete = false}) => {
                             className="trash-can-icon"
                             onClick={handleDelete}
                         />)}
-                    {!withDelete && showButton? (
-                        <button onClick={handleClick} className="metric">Связаться</button>
-                    ) : (
-                        <p className="metric_text">{project.username}</p>
-                    )}
+                    {!withDelete && showButton && (<button onClick={handleClick} className="metric">Связаться</button>)}
+                    {!withDelete && !showButton && (<p className="metric_text">{project.telegram_id}</p>)}
                 </div>
             </div>
         </div>)
