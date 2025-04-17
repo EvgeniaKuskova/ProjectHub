@@ -71,12 +71,13 @@ try {
     const cardsData = await getCards(); 
     mockProjects = cardsData ? cardsData.map((card, index) => ({
         id: index + 1,
-        username: card.teammates[0]?.name || "Неизвестный",
+        username: card.title || "Неизвестный",
         description: card.description || "Нет описания",
         search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
         type: card.customer ? "Коммерческий" : "Учебный", 
         course: card.teammates.map(member => member.grade).filter(Boolean) || [1], 
         customer: card.customer || false,
+        telegram_id: card.telegram_id,
         team: card.teammates.map(member => ({
             name: member.name,
             skills: [member.skill]

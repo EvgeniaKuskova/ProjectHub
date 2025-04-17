@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import './PageCreateAdvertisement.css';
-import {createCard, getMe} from './Client.js'
+import {createCard} from './Client.js'
 
 const filterCategories = {
     skills: {
@@ -30,8 +30,8 @@ const filterCategories = {
     type: {
         title: "Тип",
         filters: [
-            {name: "educational", label: "Учебный"},
-            {name: "personal", label: "Пет-проект"},
+            {name: "study", label: "Учебный"},
+            {name: "pet", label: "Пет-проект"},
             {name: "customer", label: "Есть заказчик"}
         ]
     }
@@ -192,22 +192,27 @@ export function CreatePage() {
     
         const formattedTeam = team.map(member => ({
             name: member.name,
-            grade: selectedCourses[0] || 1, 
             skill: member.roles.join(', ') 
         }));
     
         const formattedWhoNeeds = selectedSkills.map(skill => ({
-            grade: selectedCourses[0] || 1, 
+            grade: String(selectedCourses[0] || "1"), 
             skill: skill
         }));
+
+        const selectedType = filterCategories.type.filters
+            .filter(({name}) => name !== 'customer' && filters[name])
+            .map(({name}) => name)[0];
     
         const cardData = {
-            title: "Новый проект",
+            title: team.length > 0 ? team[0].name : "Новый проект",
             description: description,
             teammates: formattedTeam, 
             who_needs: formattedWhoNeeds,
             tech_stack: selectedSkills.join(', '),
-            customer: hasCustomer
+            customer: hasCustomer,
+            telegram_id: localStorage.getItem("tg"),
+            type: selectedType
         };
     
         console.log('Отправляемые данные:', cardData); 

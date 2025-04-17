@@ -3,43 +3,46 @@ import React from "react";
 import {useNavigate} from 'react-router-dom';
 import {ProjectCard} from './ProjectCard';
 import './PersonalPage.css'
-import {getMyCards, getMe} from './Client.js'
+import {getMyCards} from './Client.js'
 
 let mockProjects = [];
+let name = "Неизвестный"; 
+let tg = "Не указан"; 
+
 try {
     const cardsData = await getMyCards(); 
-    mockProjects = cardsData ? cardsData.map((card, index) => ({
-        id: index + 1,
-        username: card.teammates[0]?.name || "Неизвестный",
-        description: card.description || "Нет описания",
-        search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
-        type: card.customer ? "Коммерческий" : "Учебный", 
-        course: card.teammates.map(member => member.grade).filter(Boolean) || [1], 
-        customer: card.customer || false,
-        team: card.teammates.map(member => ({
-            name: member.name,
-            skills: [member.skill]
-        })) || []
-    })) : [];
+    if (cardsData && cardsData.length > 0) {
+        const firstCard = cardsData[0];
+        name = firstCard.teammates && firstCard.teammates.length > 0 
+            ? firstCard.teammates[0].name 
+            : "Неизвестный";
+        tg = firstCard.telegram_id || "Не указан";
+        
+        mockProjects = cardsData.map((card, index) => ({
+            id: index + 1,
+            username: card.title || "Неизвестный",
+            description: card.description || "Нет описания",
+            search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
+            type: card.customer ? "Коммерческий" : "Учебный", 
+            course: card.who_needs.map(member => member.grade).filter(Boolean) || [1], 
+            customer: card.customer || false,
+            telegram_id: card.telegram_id,
+            team: card.teammates.map(member => ({
+                name: member.name,
+                skills: [member.skill]
+            })) || []
+        }));
+    }
 } catch (error) {
     console.error('Ошибка получения карточек:', error);
     mockProjects = [];
 }
 
-let name;
-try {
-    const me = await getMe();
-    name = me.name + " " + me.surname;
-} catch (error) {
-    console.error('Ошибка получения пользователя:', error);
-    mockProjects = [];
-}
-
 const User = {
     name: name,
-    telegram: localStorage.getItem('tg'),
+    telegram: tg,
     projects: mockProjects
-}
+};
 
 export function PersonalPage() {
 
@@ -64,7 +67,7 @@ export function PersonalPage() {
                     className="profile-icon"
                 />
                 <p className="user-name">{User.name}</p>
-                <p className="user-telegram">{User.telegram}</p>
+                <p className="user-telegram">{User.tg}</p>
             </div>
 
             <div className="projects-container">

@@ -150,29 +150,3 @@ export const getMyCards = async () => {
         return false; 
     }
 }
-
-export const getMe = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/users/me`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
-
-        const responseData = await response.json();
-
-        if (!response.ok) {
-            console.error('Ошибка получения данных пользователя:', responseData);
-            return { error: true, message: responseData.message || 'Неизвестная ошибка' };
-        }
-
-        console.log('Успешное получение данных пользователя', responseData);
-        return responseData;
-
-    } catch (error) {
-        console.error('Сетевая ошибка:', error.message);
-        return false;
-    }
-};
