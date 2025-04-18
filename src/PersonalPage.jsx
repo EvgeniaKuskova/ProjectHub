@@ -3,27 +3,20 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ProjectCard } from './ProjectCard';
 import './PersonalPage.css';
-import { getMyCards, deleteCard } from './Client.js'; // Импортируем DeleteCard
+import { getMe, getMyCards, deleteCard } from './Client.js';
 
-let name = "Неизвестный";
-let tg = "Не указан";
 
 export function PersonalPage() {
     const [projects, setProjects] = useState([]); // Состояние для хранения проектов
     const navigate = useNavigate();
 
-    // Загрузка данных при монтировании компонента
+    const [userData, setUserData] = useState({ username: "Неизвестный", telegram_id: "Не указан" }); // Состояние для данных пользователя
+
     useEffect(() => {
         async function fetchCards() {
             try {
                 const cardsData = await getMyCards();
                 if (cardsData && cardsData.length > 0) {
-                    const firstCard = cardsData[0];
-                    name = firstCard.teammates && firstCard.teammates.length > 0
-                        ? firstCard.teammates[0].name
-                        : "Неизвестный";
-                    tg = firstCard.telegram_id || "Не указан";
-
                     const mappedProjects = cardsData.map((card, index) => ({
                         id: index + 1,
                         username: card.title || "Неизвестный",
@@ -47,7 +40,21 @@ export function PersonalPage() {
             }
         }
 
+        async function getUser() {
+            try {
+                const userData = await getMe();
+                setUserData({
+                    username: `${userData.name} ${userData.surname}`,
+                    telegram_id: userData.telegram_id,
+                });
+            }
+            catch (error) {
+                console.error('Ошибка получения пользователя:', error);
+            }
+        }
+
         fetchCards();
+        getUser();
     }, []); // Пустой массив зависимостей для однократного вызова
 
     // Функция удаления карточки
@@ -101,8 +108,8 @@ export function PersonalPage() {
                     alt="User Profile"
                     className="profile-icon"
                 />
-                <p className="user-name">{name}</p>
-                <p className="user-telegram">{tg}</p>
+                <p className="user-name">{userData.username}</p>
+                <p className="user-telegram">{userData.telegram_id}</p>
             </div>
 
             <div className="projects-container">
