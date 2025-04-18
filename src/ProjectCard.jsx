@@ -49,7 +49,7 @@ export const ProjectCard = ({project, withDelete = false, onDelete}) => {
                     <h3 className="project-type-heading">Тип</h3>
                     <p className="project-type">{project.type}</p>
                     <h3 className="project-course-heading">Курс</h3>
-                    <p className="project-course">{project.course.join(', ')}</p>
+                    <p className="project-course">{project.course}</p>
                     <FieldWithCustomers project={project}/>
                 </div>
 

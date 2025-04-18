@@ -176,3 +176,29 @@ export const deleteCard = async (cardData) => {
         return false;
     }
 }
+
+export const getMe = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/me`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            return checkError(responseData);
+        } else {
+            console.log('Успешное получение данных пользователя', responseData);
+            return responseData;
+        }
+
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        alert('Ошибка сети');
+        return false; 
+    }
+}

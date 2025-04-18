@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import './PageCreateAdvertisement.css';
-import {createCard} from './Client.js'
+import {createCard, getMe} from './Client.js'
 
 const filterCategories = {
     skills: {
@@ -217,9 +217,17 @@ export function CreatePage() {
         const selectedType = filterCategories.type.filters
             .filter(({name}) => name !== 'customer' && filters[name])
             .map(({name}) => name)[0];
+
+        let myAllName;
+        try {
+            const me = await getMe();
+            myAllName = me.name + " " + me.surname;
+        } catch (error) {
+            console.error('Ошибка получения пользователя:', error);
+        }
     
         const cardData = {
-            title: team.length > 0 ? team[0].name : "Новый проект",
+            title: myAllName,
             description: description,
             teammates: team.map(member => ({
                 name: member.name,
