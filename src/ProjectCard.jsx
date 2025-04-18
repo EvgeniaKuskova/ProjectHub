@@ -9,11 +9,12 @@ const FieldWithCustomers = ({project}) => {
 }
 
 const TeamList = ({ team }) => {
+    console.log('Team data:', team);
     return (
         <div className="team-list">
             {team.map((member, index) => (
                 <div key={index} className="team-member">
-                    {member.name}: {member.skills.join(', ')}
+                    {member.name}: {member.skill}
                 </div>
             ))}
         </div>

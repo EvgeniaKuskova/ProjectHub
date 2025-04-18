@@ -165,6 +165,7 @@ export function CreatePage() {
     };
 
     const handleRoleChange = (role) => {
+        console.log('Role changed:', role, 'Current selectedRoles:', selectedRoles);
         setSelectedRoles(prev => 
             prev.includes(role) 
                 ? prev.filter(r => r !== role) 
@@ -173,11 +174,13 @@ export function CreatePage() {
     };
 
     const handleAddMemberSubmit = () => {
+        console.log('Selected roles before submit:', selectedRoles);
         if (newMemberName.trim() && selectedRoles.length > 0) {
             const newMember = {
                 name: newMemberName,
-                roles: selectedRoles
+                skill: selectedRoles.join(', ')
             };
+            console.log('New member being added:', newMember);
             setTeam([...team, newMember]);
             setNewMemberName('');
             setSelectedRoles([]);
@@ -206,13 +209,8 @@ export function CreatePage() {
     
         const hasCustomer = filters.customer;
     
-        const formattedTeam = team.map(member => ({
-            name: member.name,
-            skill: member.roles.join(', ') 
-        }));
-    
         const formattedWhoNeeds = selectedSkills.map(skill => ({
-            grade: String(selectedCourses[0] || "1"), 
+            grade: selectedCourses.join(', ') , 
             skill: skill
         }));
 
@@ -223,7 +221,10 @@ export function CreatePage() {
         const cardData = {
             title: team.length > 0 ? team[0].name : "Новый проект",
             description: description,
-            teammates: formattedTeam, 
+            teammates: team.map(member => ({
+                name: member.name,
+                skill: member.skill
+            })),
             who_needs: formattedWhoNeeds,
             tech_stack: selectedSkills.join(', '),
             customer: hasCustomer,
@@ -232,6 +233,7 @@ export function CreatePage() {
         };
     
         console.log('Отправляемые данные:', cardData); 
+        console.log('Original team data:', team);
     
         try {
             const success = await createCard(cardData); 
@@ -305,7 +307,7 @@ export function CreatePage() {
                         <div className="team-list">
                             {team.map((member, index) => (
                                 <div key={index} className="team-member">
-                                    {member.name} - {member.roles.join(', ')}
+                                    {member.name} - {member.skill}
                                 </div>
                             ))}
                         </div>

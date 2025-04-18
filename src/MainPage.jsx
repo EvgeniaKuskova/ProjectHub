@@ -79,6 +79,7 @@ export function MainPage() {
 
     const formatProjects = (cardsData) => {
         return cardsData ? cardsData.map((card, index) => {
+            console.log('teammates при открытии главной страницы', card.teammates);
             return {
                 id: index + 1,
                 username: card.title || "Неизвестный",
@@ -90,7 +91,7 @@ export function MainPage() {
                 telegram_id: card.telegram_id,
                 team: card.teammates.map(member => ({
                     name: member.name,
-                    skills: [member.skill]
+                    skill: member.skill
                 })) || []
             };
         }) : [];

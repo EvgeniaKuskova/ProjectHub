@@ -35,7 +35,7 @@ export function PersonalPage() {
                         telegram_id: card.telegram_id,
                         team: card.teammates.map(member => ({
                             name: member.name,
-                            skills: [member.skill]
+                            skill: member.skill
                         })) || [],
                         tech_stack: card.tech_stack,
                     }));
@@ -64,7 +64,10 @@ export function PersonalPage() {
             await deleteCard({
                 title: projectToDelete.username,
                 description: projectToDelete.description,
-                teammates: projectToDelete.team.map(member => ({ name: member.name, skill: member.skills[0] })),
+                teammates: projectToDelete.team.map(member => ({
+                    name: member.name,
+                    skill: member.skill
+                })),
                 who_needs: projectToDelete.search_skills.map(skill => ({ skill, grade: projectToDelete.course[0]})),
                 tech_stack: projectToDelete.tech_stack,
                 customer: projectToDelete.customer,
