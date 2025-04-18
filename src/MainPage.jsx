@@ -79,13 +79,12 @@ export function MainPage() {
 
     const formatProjects = (cardsData) => {
         return cardsData ? cardsData.map((card, index) => {
-            const typeProject = card.type === "study" ? "Учебный" : "Пет-проект";
             return {
                 id: index + 1,
                 username: card.title || "Неизвестный",
                 description: card.description || "Нет описания",
                 search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
-                type: card.customer ? typeProject + " и есть заказчик" : typeProject,
+                type: card.type === "pet"? "Пет-проект" : "Учебный",
                 course: card.teammates.map(member => member.grade).filter(Boolean) || [1],
                 customer: card.customer || false,
                 telegram_id: card.telegram_id,

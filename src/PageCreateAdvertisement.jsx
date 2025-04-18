@@ -128,8 +128,24 @@ export function CreatePage() {
     ];
 
     const handleFilterChange = (event) => {
-        const {name, checked} = event.target;
-        setFilters(prev => ({...prev, [name]: checked}));
+        const { name, checked } = event.target;
+        if (name === "study" || name === "pet") {
+            setFilters(prev => ({
+                ...prev,
+                study: false,
+                pet: false
+            }));
+
+            if (checked) {
+                setFilters(prev => ({
+                    ...prev,
+                    [name]: true
+                }));
+            }
+        } else {
+            setFilters(prev => ({ ...prev, [name]: checked }));
+        }
+
         if (name === 'other' && !checked) {
             setOtherSkill('');
         }

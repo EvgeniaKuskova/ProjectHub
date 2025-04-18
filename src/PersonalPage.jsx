@@ -29,7 +29,7 @@ export function PersonalPage() {
                         username: card.title || "Неизвестный",
                         description: card.description || "Нет описания",
                         search_skills: card.who_needs.map(reader => reader.skill) || ["Навык не указан"],
-                        type: card.customer ? "Коммерческий" : "Учебный",
+                        type: card.type === 'pet'? "Пет-проект" : "Учебный",
                         course: card.who_needs.map(member => member.grade).filter(Boolean) || [1],
                         customer: card.customer || false,
                         telegram_id: card.telegram_id,
