@@ -9,14 +9,14 @@ const filterCategories = {
     skills: {
         title: "Навыки",
         filters: [
-            {name: "backend", label: "Backend-разработчик"},
-            {name: "frontend", label: "Frontend-разработчик"},
-            {name: "analyst", label: "Аналитик"},
-            {name: "designer", label: "Дизайнер"},
-            {name: "ml", label: "ML-инженер"},
-            {name: "qa", label: "Тестировщик"},
-            {name: "manager", label: "Менеджер"},
-            {name: "other", label: "Другое"}
+            {name: "Backend-разработчик", label: "Backend-разработчик"},
+            {name: "Frontend-разработчик", label: "Frontend-разработчик"},
+            {name: "Аналитик", label: "Аналитик"},
+            {name: "Дизайнер", label: "Дизайнер"},
+            {name: "ML-инженер", label: "ML-инженер"},
+            {name: "Тестировщик", label: "Тестировщик"},
+            {name: "Менеджер", label: "Менеджер"},
+            {name: "Другое", label: "Другое"}
         ]
     },
     course: {
