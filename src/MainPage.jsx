@@ -68,6 +68,7 @@ const FilterGroup = ({title, filters, filterState, onFilterChange, groupClassNam
 
 
 export function MainPage() {
+    console.log('MainPage rendered');
     const navigate = useNavigate()
 
     const initialFilters = Object.values(filterCategories)
@@ -108,7 +109,6 @@ export function MainPage() {
             }
         };
 
-        // Новая функция для отправки POST-запроса
         const sendView = async () => {
             try {
                 const response = await fetch('/api/metrics/view', {
@@ -147,7 +147,9 @@ export function MainPage() {
             .map(key => parseInt(key.replace('first', '1').replace('second', '2')
                 .replace('third', '3').replace('fourth', '4')));
         const selectedTypes = Object.keys(filters)
-            .filter(key => filters[key] && filterCategories.type.filters.some(f => f.name === key));
+            .filter(key => filters[key] && filterCategories.type.filters.some(f => f.name === key
+                && f.name !== 'customer'));
+        const hasCustomer = filters['customer'] || false;
         try {
             const queryParams = new URLSearchParams();
             if (selectedSkills.length > 0) {
@@ -158,6 +160,10 @@ export function MainPage() {
             }
             if (selectedTypes.length > 0) {
                 selectedTypes.forEach(type => queryParams.append('type', type));
+            }
+
+            if (hasCustomer) {
+                queryParams.set('customer', 'true');
             }
 
             const response = await fetch(`/api/cards/filter?${queryParams}`);
