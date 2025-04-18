@@ -108,7 +108,29 @@ export function MainPage() {
             }
         };
 
+        // Новая функция для отправки POST-запроса
+        const sendView = async () => {
+            try {
+                const response = await fetch('/api/metrics/view', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Успешный ответ сервера:', data);
+                } else {
+                    console.error('Ошибка при отправке запроса:', response.status);
+                }
+            } catch (error) {
+                console.error('Сетевая ошибка:', error);
+            }
+        };
+
         fetchInitialProjects();
+        sendView();
     }, []);
 
     const handleFilterChange = (event) => {

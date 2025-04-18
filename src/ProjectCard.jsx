@@ -22,12 +22,27 @@ const TeamList = ({ team }) => {
 };
 
 export const ProjectCard = ({project, withDelete = false, onDelete}) => {
-    let metric;
-    const [showButton, setShowButton] = useState(true); // Состояние для отображения кнопки
+    const [showButton, setShowButton] = useState(true);
 
-    const handleClick = () => {
+    const handleClick = async () => {
         setShowButton(false)
-        metric++;
+        try {
+            const response = await fetch('/api/metrics/contacted', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Успешный ответ сервера:', data);
+            } else {
+                console.error('Ошибка при отправке запроса:', response.status);
+            }
+        } catch (error) {
+            console.error('Сетевая ошибка:', error);
+        }
     };
 
     return (<div className="project-card">
