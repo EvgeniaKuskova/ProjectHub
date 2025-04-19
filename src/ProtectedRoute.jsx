@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { getMe } from './Client.js';
+import { useEffect, useState } from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
 
 export function ProtectedRoute() {
-    const [isAuthenticated, setIsAuthenticated] = useState(null); // null - проверка ещё идёт
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -17,6 +16,7 @@ export function ProtectedRoute() {
                 await getMe();
                 setIsAuthenticated(true);
             } catch (error) {
+                console.error('Authentication failed:', error);
                 localStorage.removeItem('token');
                 setIsAuthenticated(false);
             }
@@ -25,9 +25,16 @@ export function ProtectedRoute() {
         checkAuth();
     }, [token]);
 
+    // Если проверка ещё идёт, показываем загрузку
     if (isAuthenticated === null) {
-        return <div>Loading...</div>; // Или спиннер
+        return <div>Loading...</div>;
     }
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+    // Если не аутентифицирован, перенаправляем на логин
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    // Если аутентифицирован, показываем дочерние маршруты
+    return <Outlet />;
 }
