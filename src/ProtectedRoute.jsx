@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
-import { getMe} from './Client.js';
 
 export function ProtectedRoute() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -14,8 +13,24 @@ export function ProtectedRoute() {
 
         const checkAuth = async () => {
             try {
-                await getMe();
-                setIsAuthenticated(true);
+                const response = await fetch(`/api/users/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                });
+
+                const responseData = await response.json();
+
+                if (!response.ok) {
+                    localStorage.removeItem('token');
+                    setIsAuthenticated(false);
+                } else {
+                    setIsAuthenticated(true);
+                    return responseData;
+                }
+
             } catch (error) {
                 console.error('Authentication failed:', error);
                 localStorage.removeItem('token');
