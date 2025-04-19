@@ -156,7 +156,7 @@ export const deleteCard = async (cardData) => {
         const response = await fetch(`${API_BASE_URL}/cards/delete`, {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(cardData),
