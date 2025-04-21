@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import './PageCreateAdvertisement.css';
 import {createCard, getMe} from './Client.js'
+import userImage from "./assets/user.png";
 
 const filterCategories = {
     skills: {
@@ -275,7 +276,7 @@ export function CreatePage() {
             <header className="header">
                 <h1 className="site-title">ProjectHub</h1>
                 <img
-                    src="src/assets/user.png"
+                    src={userImage}
                     alt="User Icon"
                     className="user-icon"
                     onClick={() => navigate('/User')}

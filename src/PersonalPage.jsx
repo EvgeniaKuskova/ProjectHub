@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { ProjectCard } from './ProjectCard';
 import './PersonalPage.css';
 import { getMe, getMyCards, deleteCard } from './Client.js';
+import homeImage from "./assets/home.png";
+import defaultUserImage from "./assets/default-user.png";
 
 
 export function PersonalPage() {
@@ -95,7 +97,7 @@ export function PersonalPage() {
             <header className="header">
                 <h1 className="site-title">ProjectHub</h1>
                 <img
-                    src="src/assets/home.png"
+                    src={homeImage}
                     alt="Home Icon"
                     className="home-icon"
                     onClick={() => navigate('/')}
@@ -104,7 +106,7 @@ export function PersonalPage() {
 
             <div className="profile-container">
                 <img
-                    src="src/assets/default-user.png"
+                    src={defaultUserImage}
                     alt="User Profile"
                     className="profile-icon"
                 />

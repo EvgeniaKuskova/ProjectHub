@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import './Card.css'
+import trashCanImage from "./assets/trash-can.png";
+import defaultUserImage from "./assets/default-user.png";
 
 const FieldWithCustomers = ({project}) => {
     if (project.customer === true) {
@@ -48,7 +50,7 @@ export const ProjectCard = ({project, withDelete = false, onDelete}) => {
     return (<div className="project-card">
             <div className="project-header">
                 <img
-                    src={"src/assets/default-user.png"}
+                    src={defaultUserImage}
                     alt="User Avatar"
                     className="project-avatar"
                 />
@@ -72,7 +74,7 @@ export const ProjectCard = ({project, withDelete = false, onDelete}) => {
                     <h3 className="project-team-heading">В команде уже есть</h3>
                     <TeamList team={project.team}/>
                     {withDelete && (<img
-                            src="src/assets/trash-can.png"
+                            src={trashCanImage}
                             alt="Trash-can Icon"
                             className="trash-can-icon"
                             onClick={onDelete}

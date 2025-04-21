@@ -4,6 +4,8 @@ import './App.css';
 import {ProjectCard} from './ProjectCard';
 import './MainPage.css';
 import {getCards} from './Client.js'
+import userImage from "./assets/user.png";
+import editImage from "./assets/edit.png";
 
 const filterCategories = {
     skills: {
@@ -180,7 +182,7 @@ export function MainPage() {
             <header className="header">
                 <h1 className="site-title">ProjectHub</h1>
                 <img
-                    src="src/assets/user.png"
+                    src={userImage}
                     alt="User Icon"
                     className="user-icon"
                     onClick={() => navigate('/User')}
@@ -207,7 +209,7 @@ export function MainPage() {
             </div>
 
             <img
-                src="src/assets/edit.png"
+                src={editImage}
                 alt="Edit"
                 className="edit-icon"
                 onClick={() => navigate('/Create')}
