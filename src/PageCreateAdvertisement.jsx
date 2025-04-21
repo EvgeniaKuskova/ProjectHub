@@ -267,8 +267,10 @@ export function CreatePage() {
             .some(({name}) => filters[name]);
         const isTypeValid = filterCategories.type.filters
             .some(({name}) => name !== 'customer' && filters[name]);
+        const isRolesValid = filterCategories.skills.filters
+            .some(({name}) => filters[name]);
         
-        return isDescriptionValid && isTeamValid && isCourseValid && isTypeValid;
+        return isDescriptionValid && isTeamValid && isCourseValid && isTypeValid && isRolesValid;
     };
 
     return (
