@@ -108,7 +108,15 @@ textarea {
     opacity: 47%;
     font-size: 24px;
     cursor: pointer;
-    padding: 0;
+    margin-bottom: 10px;
+}
+
+.add-team {
+    color: #3c3c3c;
+    opacity: 47%;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;  
 }
 
 h1 {

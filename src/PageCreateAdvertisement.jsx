@@ -315,7 +315,7 @@ export function CreatePage() {
                     {team.length > 0 && (
                         <div className="team-list">
                             {team.map((member, index) => (
-                                <div key={index} className="team-member">
+                                <div key={index} className="add-team">
                                     {member.name} - {member.skill}
                                 </div>
                             ))}
