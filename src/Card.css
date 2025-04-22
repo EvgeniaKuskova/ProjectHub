@@ -110,6 +110,10 @@
     color: #615F5F;
 }
 
+.metric_text:hover {
+    color: #ffa95d;
+}
+
 .metric:hover {
     cursor: pointer;
     background-color: #bf3c02;

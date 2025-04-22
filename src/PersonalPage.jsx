@@ -125,7 +125,7 @@ export function PersonalPage() {
                 <div className="personal-projects-grid">
                     {projects.length === 0 ? (
                         <div className="empty-projects-message">
-                            Тут пусто пока пусто... 😢
+                            Тут пока пусто... 😢
                         </div>
                     ) : (
                         projects.map(project => (

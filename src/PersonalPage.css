@@ -27,7 +27,6 @@
 .user-name,
 .user-telegram {
     font-family: 'Roboto', sans-serif;
-    color: #615F5F;
     margin: 0;
     width: 100%;
     text-align: center;
@@ -36,10 +35,16 @@
 .user-name {
     margin-bottom: 10px;
     font-size: 44px;
+    color: #615F5F;
 }
 
 .user-telegram {
     font-size: 36px;
+    color: #ffa95d;
+}
+
+.user-telegram:hover {
+    color: #bf3c02;
 }
 
 .projects-container {

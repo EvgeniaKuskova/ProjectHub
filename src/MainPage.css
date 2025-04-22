@@ -183,3 +183,7 @@
     margin-top: 100px;
     margin-left: 170px;
 }
+
+.projects-grid .empty-projects-message {
+    margin-top: 70px;
+}
