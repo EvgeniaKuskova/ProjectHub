@@ -80,7 +80,16 @@ export const ProjectCard = ({project, withDelete = false, onDelete}) => {
                             onClick={onDelete}
                         />)}
                     {!withDelete && showButton && (<button onClick={handleClick} className="metric">Связаться</button>)}
-                    {!withDelete && !showButton && (<p className="metric_text">{project.telegram_id}</p>)}
+                    {!withDelete && !showButton && (
+                        <a
+                            href={`https://t.me/${project.telegram_id.replace('@', '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="metric_text"
+                        >
+                            {project.telegram_id}
+                        </a>
+                    )}
                 </div>
             </div>
         </div>)

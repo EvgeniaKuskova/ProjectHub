@@ -180,7 +180,7 @@ export function MainPage() {
     return (
         <div className="main-container">
             <header className="header">
-                <h1 className="site-title">ProjectHub</h1>
+                <h1 className="site-title" onClick={() => navigate('/')}>ProjectHub</h1>
                 <img
                     src={userImage}
                     alt="User Icon"
@@ -216,9 +216,18 @@ export function MainPage() {
             />
 
             <div className="projects-grid">
-                {projects.map(project => (
-                    <ProjectCard key={project.id} project={project}/>
-                ))}
+                {projects.length === 0 ? (
+                    <div className="empty-projects-message">
+                        Не нашлось ничего подходящего
+                    </div>
+                ) : (
+                    projects.map(project => (
+                        <ProjectCard
+                            key={project.id}
+                            project={project}
+                        />
+                    ))
+                )}
             </div>
         </div>
     );

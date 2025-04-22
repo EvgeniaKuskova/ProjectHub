@@ -26,6 +26,10 @@
     margin-left: 30px;
 }
 
+.site-title:hover {
+    cursor: pointer;
+}
+
 .user-icon {
     width: 60px;
     height: 60px;
@@ -35,17 +39,17 @@
 }
 
 .sidebar {
-    position: absolute; 
+    position: absolute;
     left: 0;
     top: 100px;
     width: 250px;
-    height: calc(100% - 80px);
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 10px;
     margin: 0;
     box-sizing: border-box;
+    height: auto;
 }
 
 .sidebar h3 {
@@ -139,18 +143,23 @@
     color: #fff;
 }
 
-.sidebar .apply-filters-button {
-    position: absolute;
-    background-color: #ffa95d;
-    left: 12px;
-    top: 720px;
-    width: 230px;
+.apply-filters-button {
+    margin-top: 20px;
     height: 50px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    border: 0;
-    border-radius: 10px;
+    padding: 12px 20px;
+    background-color: #ffa95d;
     color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 10px;
 }
 
 .sidebar .apply-filters-button:hover {
@@ -173,4 +182,8 @@
 .projects-grid {
     margin-top: 100px;
     margin-left: 170px;
+}
+
+.projects-grid .empty-projects-message {
+    margin-top: 70px;
 }
