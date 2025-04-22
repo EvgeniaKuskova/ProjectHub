@@ -112,7 +112,7 @@ textarea {
 }
 
 .add-team {
-    color: #3c3c3c;
+    color: #303030;
     opacity: 47%;
     font-size: 24px;
     cursor: pointer;
@@ -129,6 +129,10 @@ h1 {
     line-height: 1.2;
     width: 100%;
     justify-content: flex-start;
+}
+
+.textareaInput {
+    font-size: 20px;
 }
 
 label {
@@ -182,6 +186,41 @@ label span {
 .course .filter-text {
     display: flex;
     justify-content: center;
+}
+
+.type .filter-study input[type="checkbox"], .type .filter-pet input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.type .filter-study .filter-text, .type .filter-pet .filter-text {
+    position: relative;
+}
+
+.type .filter-study .filter-text::before, .type .filter-pet .filter-text::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ffa95d;
+    border-radius: 50%; /* Круг = радио */
+    background: white;
+    transition: all 0.3s;
+}
+
+.type .filter-study input[type="checkbox"]:checked + .filter-text::before, .type .filter-pet input[type="checkbox"]:checked + .filter-text::before {
+    background-color: #ffa95d;
+    box-shadow: inset 0 0 0 3px white;
+}
+
+.type .filter-customer {
+    margin-top: 50px;
+    margin-left: -30px;
 }
 
 .course input[type="checkbox"] {
@@ -267,6 +306,20 @@ label span {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
+}
+
+.modal-overlay-publish {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
     z-index: 1;
 }
 

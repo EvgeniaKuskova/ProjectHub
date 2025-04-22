@@ -115,6 +115,7 @@ export function CreatePage() {
     const [description, setDescription] = useState('');
     const [team, setTeam] = useState([]);
     const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+    const [showPublishCardModal, setShowPublishCardModal] = useState(false);
     const [newMemberName, setNewMemberName] = useState('');
     const [selectedRoles, setSelectedRoles] = useState([]);
 
@@ -165,8 +166,16 @@ export function CreatePage() {
         setShowAddMemberModal(true);
     };
 
+    const handlePublishCard = () => {
+        setShowPublishCardModal(true);
+        setTimeout(() => {
+            setShowPublishCardModal(false);
+            navigate('/')
+        }, 2000);
+    };
+
     const handleRoleChange = (role) => {
-        console.log('Role changed:', role, 'Current selectedRoles:', selectedRoles);
+        console.log('Роль изменена:', role, 'Текущие добавленные роли:', selectedRoles);
         setSelectedRoles(prev => 
             prev.includes(role) 
                 ? prev.filter(r => r !== role) 
@@ -175,13 +184,12 @@ export function CreatePage() {
     };
 
     const handleAddMemberSubmit = () => {
-        console.log('Selected roles before submit:', selectedRoles);
         if (newMemberName.trim() && selectedRoles.length > 0) {
             const newMember = {
                 name: newMemberName,
                 skill: selectedRoles.join(', ')
             };
-            console.log('New member being added:', newMember);
+            console.log('Новый участник добавлен:', newMember);
             setTeam([...team, newMember]);
             setNewMemberName('');
             setSelectedRoles([]);
@@ -248,11 +256,12 @@ export function CreatePage() {
             const success = await createCard(cardData); 
             
             if (success) {
-                alert('Объявление успешно опубликовано!');
+                console.log('Объявление успешно опубликовано!');
                 setDescription('');
                 setTeam([]);
                 setFilters(initialFilters);
                 setOtherSkill('');
+                handlePublishCard();
             }
         } catch (error) {
             console.error('Ошибка при публикации:', error);
@@ -290,6 +299,7 @@ export function CreatePage() {
                     <textarea 
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        className="textareaInput"
                     ></textarea>
                 </div>
                 {Object.entries(filterCategories).map(([key, {title, filters: filterItems}]) => (
@@ -318,7 +328,7 @@ export function CreatePage() {
                         <div className="team-list">
                             {team.map((member, index) => (
                                 <div key={index} className="add-team">
-                                    {member.name} - {member.skill}
+                                    {member.name} – {member.skill}
                                 </div>
                             ))}
                         </div>
@@ -371,6 +381,15 @@ export function CreatePage() {
                                 Добавить
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Модальное окно успешной публикации */}
+            {showPublishCardModal && (
+                <div className="modal-overlay-publish">
+                    <div className="modal-content">
+                        <h2>Объявление опубликовано</h2>
                     </div>
                 </div>
             )}
