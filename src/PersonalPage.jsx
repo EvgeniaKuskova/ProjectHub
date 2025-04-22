@@ -93,7 +93,7 @@ export function PersonalPage() {
     return (
         <div className="personal-container">
             <header className="header">
-                <h1 className="site-title">ProjectHub</h1>
+                <h1 className="site-title" onClick={() => navigate('/')}>ProjectHub</h1>
                 <img
                     src="src/assets/home.png"
                     alt="Home Icon"
@@ -109,21 +109,34 @@ export function PersonalPage() {
                     className="profile-icon"
                 />
                 <p className="user-name">{userData.username}</p>
-                <p className="user-telegram">{userData.telegram_id}</p>
+                <a
+                    href={`https://t.me/${userData.telegram_id.replace('@', '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="user-telegram"
+                >
+                    {userData.telegram_id}
+                </a>
             </div>
 
             <div className="projects-container">
                 <p className="my-projects">Мои объявления</p>
 
                 <div className="personal-projects-grid">
-                    {projects.map(project => (
-                        <ProjectCard
-                            key={project.id}
-                            project={project}
-                            withDelete={true}
-                            onDelete={() => handleDelete(project.id)} // Передаем обработчик удаления
-                        />
-                    ))}
+                    {projects.length === 0 ? (
+                        <div className="empty-projects-message">
+                            Тут пусто пока пусто... 😢
+                        </div>
+                    ) : (
+                        projects.map(project => (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                withDelete={true}
+                                onDelete={() => handleDelete(project.id)}
+                            />
+                        ))
+                    )}
                 </div>
             </div>
         </div>

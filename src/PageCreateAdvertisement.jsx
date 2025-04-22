@@ -273,7 +273,7 @@ export function CreatePage() {
     return (
         <div className="main-container">
             <header className="header">
-                <h1 className="site-title">ProjectHub</h1>
+                <h1 className="site-title" onClick={() => navigate('/')}>ProjectHub</h1>
                 <img
                     src="src/assets/user.png"
                     alt="User Icon"
